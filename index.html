@@ -593,7 +593,7 @@ input,textarea{font-size:16px!important}
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="art.js"></script>
+<script src="art.js?v=3"></script>
 <script>
 const WA='77751255073', FREE_KG=2, DELIVERY=1000, STEP=0.5;
 const P=[
@@ -609,7 +609,8 @@ const fmt=n=>Math.round(n).toLocaleString('ru-RU').replace(/\s/g,' ')+' ₸';
 const kg=n=>(Math.round(n*10)/10).toString().replace('.',',')+' кг';
 let _u=0;
 function art(id){const k='u'+(++_u);return ART[id].replace(/id="([^"]+)"/g,'id="$1'+k+'"').replace(/url\(#([^)]+)\)/g,'url(#$1'+k+')')}
-const pic=p=>`<img src="img/${p.id}.jpg" alt="${p.n}" loading="lazy" onerror="this.outerHTML=art('${p.id}')">`;
+const IMG_V=3;
+const pic=p=>`<img src="img/${p.id}.jpg?v=${IMG_V}" alt="${p.n}" loading="lazy" onerror="this.outerHTML=art('${p.id}')">`;
 const thumb=id=>pic(byId(id));
 const byId=id=>P.find(x=>x.id==id);
 
