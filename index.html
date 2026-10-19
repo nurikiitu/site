@@ -744,7 +744,6 @@ function route(){
 addEventListener('hashchange',route);route();
 /* iOS Safari: екі рет басу мен саусақпен үлкейтуді өшіру */
 ['gesturestart','gesturechange','gestureend'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
-let _lastTouch=0;document.addEventListener('touchend',e=>{const n=Date.now();if(n-_lastTouch<350&&!e.target.closest('input,textarea'))e.preventDefault();_lastTouch=n},{passive:false});
 addEventListener('scroll',()=>$('#top').classList.toggle('scrolled',scrollY>10),{passive:true});
 update();
 </script>
