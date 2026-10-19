@@ -430,6 +430,13 @@ input,textarea{font-size:16px!important}
   .facts div{padding:7px 4px}
 }
 
+
+/* language switch */
+.lang{margin-left:auto;display:flex;background:rgba(255,255,255,.14);border-radius:12px;padding:3px;gap:2px}
+.lang button{height:34px;min-width:46px;padding:0 10px;border-radius:9px;color:#c9d4f2;font-weight:700;font-size:13px;letter-spacing:.3px;transition:background .25s,color .25s}
+.lang button.on{background:var(--butter);color:var(--ink)}
+.top .cartbtn{margin-left:0}
+@media(max-width:820px){.lang button{height:32px;min-width:44px;font-size:12.5px}}
 /* ===== Kaspi payment ===== */
 .p4{transform:translateX(100%);opacity:0;pointer-events:none}
 .dr.s4 .p1,.dr.s4 .p2,.dr.s4 .p3{transform:translateX(-25%);opacity:0;pointer-events:none}
@@ -474,6 +481,7 @@ input,textarea{font-size:16px!important}
 <header class="top" id="top"><div class="wrap">
   <a class="logo" href="#home"><svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="11" fill="#f3c53a"/><path d="M20 21c0-6 5-9 8-6s0 7-3 6M20 21c0-6-5-9-8-6s0 7 3 6M20 21v9" stroke="#1e3f94" stroke-width="2.6" stroke-linecap="round"/></svg>Ауыл дәмі</a>
   <nav class="nav" id="topnav"><a href="#home" data-r="home">Басты</a><a href="#shop" data-r="shop">Өнімдер</a><a href="#cart" data-r="cart">Себет</a></nav>
+  <div class="lang" id="langT" role="group" aria-label="Тіл"><button type="button" data-l="kk" class="on">ҚАЗ</button><button type="button" data-l="ru">РУС</button></div>
   <button class="cartbtn" id="cartBtn" aria-label="Себетті ашу">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.5L21 8H6.2"/><circle cx="10" cy="20.5" r="1.3"/><circle cx="18" cy="20.5" r="1.3"/></svg>
     <span id="cartBtnSum">Себет</span><span class="badge" id="badge">0</span>
@@ -576,7 +584,7 @@ input,textarea{font-size:16px!important}
   <div class="df">
     <div class="row"><span>Тауарлар · <span id="kgT">0</span></span><b id="subT">0 ₸</b></div>
     <div class="row"><span>Жеткізу</span><b id="delT">—</b></div>
-    <div class="row tot"><span>Барлығы<small id="totSub"></small></span><span id="totT">0 ₸</span></div>
+    <div class="row tot"><span><span data-k="total">Барлығы</span><small id="totSub"></small></span><span id="totT">0 ₸</span></div>
     <button class="cta" id="cta">Мекенжайға өту</button>
   </div>
 </aside>
@@ -597,12 +605,12 @@ input,textarea{font-size:16px!important}
 <script>
 const WA='77751255073', FREE_KG=2, DELIVERY=1000, STEP=0.5;
 const P=[
- {id:'syqpa',   n:'Сықпа құрт',           d:'Қолмен сығылған, ащы-тұзды дәмі бар',  pr:5500,  c:'kurt', t:'Көп алынады'},
- {id:'dongelek',n:'Дөңгелек құрт',        d:'Домалақ, жұмсақтау, балаларға ұнайды', pr:5500,  c:'kurt'},
- {id:'may',     n:'Сары май, кесе майы',  d:'Ауылдың үй майы, кеседе қатырылған',   pr:5500,  c:'may sut'},
- {id:'kuyryk',  n:'Ысталған құйрық май',  d:'Ағаш түтінімен ысталған',              pr:10000, c:'may et'},
- {id:'irimshik',n:'Ірімшік',              d:'Қоңыр, тәттілеу, шайға таптырмас',     pr:3500,  c:'sut'},
- {id:'kazy',    n:'Қазы',                 d:'Жылқы етінен, дәстүрлі әдіспен',       pr:5500,  c:'et', t:'Көп алынады'},
+ {id:'syqpa',   n:'Сықпа құрт',           d:'Қолмен сығылған, ащы-тұзды дәмі бар',  pr:5500,  c:'kurt', t:'Көп алынады', nr:'Курт сыкпа', dr:'Прессованный вручную, солоноватый'},
+ {id:'dongelek',n:'Дөңгелек құрт',        d:'Домалақ, жұмсақтау, балаларға ұнайды', pr:5500,  c:'kurt', nr:'Курт круглый', dr:'Шариками, мягкий, нравится детям'},
+ {id:'may',     n:'Сары май, кесе майы',  d:'Ауылдың үй майы, кеседе қатырылған',   pr:5500,  c:'may sut', nr:'Масло сливочное', dr:'Домашнее масло из аула'},
+ {id:'kuyryk',  n:'Ысталған құйрық май',  d:'Ағаш түтінімен ысталған',              pr:10000, c:'may et', nr:'Копчёный курдюк', dr:'Копчёный на древесном дыму'},
+ {id:'irimshik',n:'Ірімшік',              d:'Қоңыр, тәттілеу, шайға таптырмас',     pr:3500,  c:'sut', nr:'Иримшик', dr:'Коричневый, сладковатый, к чаю'},
+ {id:'kazy',    n:'Қазы',                 d:'Жылқы етінен, дәстүрлі әдіспен',       pr:5500,  c:'et', t:'Көп алынады', nr:'Казы', dr:'Из конины, по традиционному рецепту'},
 ];
 const $=s=>document.querySelector(s);
 const fmt=n=>Math.round(n).toLocaleString('ru-RU').replace(/\s/g,' ')+' ₸';
@@ -610,9 +618,83 @@ const kg=n=>(Math.round(n*10)/10).toString().replace('.',',')+' кг';
 let _u=0;
 function art(id){const k='u'+(++_u);return ART[id].replace(/id="([^"]+)"/g,'id="$1'+k+'"').replace(/url\(#([^)]+)\)/g,'url(#$1'+k+')')}
 const IMG_V=3;
-const pic=p=>`<img src="img/${p.id}.jpg?v=${IMG_V}" alt="${p.n}" loading="lazy" onerror="this.outerHTML=art('${p.id}')">`;
+const pic=p=>`<img src="img/${p.id}.jpg?v=${IMG_V}" alt="${PN(p)}" loading="lazy" onerror="this.outerHTML=art('${p.id}')">`;
 const thumb=id=>pic(byId(id));
 const byId=id=>P.find(x=>x.id==id);
+/* ===== Тіл / Язык ===== */
+const RU={
+'Басты':'Главная','Өнімдер':'Товары','Себет':'Корзина','Себетті ашу':'Открыть корзину',
+'Ауылдың құрты, қазысы мен майы есігіңізге дейін':'Курт, казы и масло из аула — прямо к вашей двери',
+'Керек салмақты таңдаңыз, себетке салыңыз. Тапсырысыңыз WhatsApp арқылы бізге бірден жетеді, ал біз өзіңіз таңдаған уақытта әкелеміз.':'Выберите нужный вес и добавьте в корзину. Заказ сразу придёт нам в WhatsApp, а мы привезём его в удобное для вас время.',
+'Өнімдерді көру':'Смотреть товары','WhatsApp-қа жазу':'Написать в WhatsApp',
+'2 кг-нан':'От 2 кг','жеткізу тегін':'доставка бесплатно','4 уақыт':'4 интервала','аралығы күн сайын':'доставки каждый день','6 өнім':'6 товаров','ауылдан тікелей':'прямо из аула',
+'Құрт, 1 кг':'Курт, 1 кг','Танымал өнімдер':'Популярное','Барлығы →':'Все →',
+'Салмағын таңдаңыз':'Выберите вес','0,5 кг-нан бастап кез келген мөлшер. Әр өнімнің бағасы бірден есептеледі.':'Любое количество от 0,5 кг. Цена считается сразу.',
+'Мекенжайды толтырыңыз':'Укажите адрес','Көше, үй, пәтер, қабат — курьер адаспай тауып келуі үшін бәрін бөлек жазасыз.':'Улица, дом, квартира, этаж — каждое поле отдельно, чтобы курьер не заблудился.',
+'WhatsApp-қа жіберіңіз':'Отправьте в WhatsApp','Тапсырыс дайын хабарлама болып ашылады. Жіберу батырмасын бассаңыз болды.':'Заказ откроется готовым сообщением — останется нажать «Отправить».',
+'Жеткізу Астана бойынша':'Доставка по Астане','Тегін':'Бесплатно',
+'Жалпы салмағы 2 кг және одан көп тапсырыс. Өнімдерді аралас алуға болады: 1 кг құрт + 1 кг қазы да кіреді.':'При заказе от 2 кг. Товары можно комбинировать: 1 кг курта + 1 кг казы тоже подходит.',
+'2 кг-нан аз тапсырыс. Уақытты өзіңіз таңдайсыз: 10:00–13:00, 13:00–16:00, 16:00–19:00 немесе 19:00–22:00.':'Заказ меньше 2 кг. Время выбираете сами: 10:00–13:00, 13:00–16:00, 16:00–19:00 или 19:00–22:00.',
+'Барлығы':'Все','Құрт':'Курт','Май':'Масло','Ет өнімдері':'Мясное','Сүт өнімдері':'Молочное',
+'Мекенжай':'Адрес','Тексеру':'Проверка','Астана':'Астана','Басқа қала':'Другой город','Атыңыз':'Ваше имя',
+'Қала / елді мекен *':'Город / населённый пункт *','жеткізу':'доставка','Қазпошта':'Казпочта','немесе такси':'или такси',
+'Көше / даңғыл / ЖК *':'Улица / проспект / ЖК *','Үй *':'Дом *','Пәтер':'Кв.','Қабат':'Этаж',
+'Жеткізу күні мен уақыты *':'Дата и время доставки *','Домофон, ескертпе':'Домофон, комментарий','Тауарлар ·':'Товары ·',
+'Жеткізу':'Доставка','Мекенжайға өту':'Перейти к адресу','Тапсырыстар күн сайын қабылданады':'Принимаем заказы каждый день',
+'Артқа':'Назад','Жабу':'Закрыть','Азайту':'Уменьшить','Көбейту':'Увеличить','Өшіру':'Удалить',
+'Көп алынады':'Хит продаж','Себетке':'В корзину','1 кг себетке салынды':'1 кг добавлено в корзину','{n} өнім · {w}':'{n} тов. · {w}',
+'Келісім бойынша':'По договорённости','{w} · жеткізу: {d}':'{w} · доставка: {d}',
+'Себет әзірге бос':'Корзина пока пуста','Өнімді таңдап, салмағын белгілеңіз.':'Выберите товар и укажите вес.','Өнімдерге өту':'К товарам',
+'Басқа қалаға жеткізу':'Доставка в другой город','Құны тапсырыстан кейін хабарланады':'Стоимость сообщим после заказа',
+'Тегін жеткізуге тағы {x} қалды':'До бесплатной доставки ещё {x}','Қазір жеткізу {x}':'Сейчас доставка {x}','Жеткізу тегін':'Доставка бесплатная','Себетте {x}, бұл 2 кг-нан көп':'В корзине {x} — это больше 2 кг',
+'Kaspi-мен төлеу':'Оплата Kaspi','Тапсырысты тексеру':'Проверить заказ','Тапсырыс беру және Kaspi-мен төлеу':'Оформить и оплатить Kaspi','WhatsApp-қа жіберу':'Отправить в WhatsApp',
+'Аты-жөні *':'ФИО *','Бүгін':'Сегодня','Ертең':'Завтра',
+'Жексенбі':'Воскресенье','Дүйсенбі':'Понедельник','Сейсенбі':'Вторник','Сәрсенбі':'Среда','Бейсенбі':'Четверг','Жұма':'Пятница','Сенбі':'Суббота',
+'үй {x}':'д. {x}','пәтер {x}':'кв. {x}','подъезд {x}':'подъезд {x}','{x}-қабат':'{x} этаж',
+'Жеткізу тәсілін таңдаңыз':'Выберите способ доставки','Қызыл жолдарды толтырыңыз':'Заполните поля, отмеченные красным',
+'Өзгерту':'Изменить','Күні':'Дата','Уақыты':'Время','Тәсілі':'Способ','Жеткізу құны':'Стоимость доставки',
+'Жеткізу құны мен мерзімін тапсырыстан кейін WhatsApp арқылы хабарлаймыз. Қазір Kaspi арқылы тек өнімдердің құнын төлейсіз.':'Стоимость и сроки доставки сообщим в WhatsApp после заказа. Сейчас через Kaspi оплачиваете только товары.',
+'Телефон':'Телефон','Аты':'Имя','Аты-жөні':'ФИО','Ескертпе':'Комментарий',
+'Батырманы басқанда WhatsApp ашылып, тапсырыс мәтіні өзі жазылады. Тек «Жіберу» түймесін басыңыз.':'После нажатия откроется WhatsApp с готовым текстом заказа — останется нажать «Отправить».',
+'Тапсырыс жіберілуде…':'Отправляем заказ…','Көшірілді ✓':'Скопировано ✓','Көшіру':'Копировать',
+'Тапсырысыңыз қабылданды! Енді Kaspi арқылы төлеңіз.':'Заказ принят! Теперь оплатите через Kaspi.',
+'Тапсырыс WhatsApp-та ашылды, «Жіберу» басыңыз. Сосын Kaspi арқылы төлеңіз.':'Заказ открыт в WhatsApp — нажмите «Отправить». Затем оплатите через Kaspi.',
+'Төленетін сумма':'Сумма к оплате',' (жеткізу бөлек)':' (доставка отдельно)','Сумма':'Сумма','Kaspi нөмірі':'Номер Kaspi','Kaspi қосымшасын ашу':'Открыть Kaspi',
+'Kaspi-де «Аударымдар» → «Kaspi клиентіне» бөліміне кіріңіз':'В Kaspi откройте «Переводы» → «Клиенту Kaspi»',
+'Көшірілген нөмірді қойыңыз, алушы «{x}» екенін тексеріңіз':'Вставьте скопированный номер и проверьте, что получатель — «{x}»',
+'{x} сомасын енгізіп, аударыңыз':'Введите сумму {x} и переведите',
+'Чекті төмендегі батырма арқылы WhatsApp-қа жіберіңіз':'Отправьте чек в WhatsApp кнопкой ниже',
+'Чекті WhatsApp-қа жіберу':'Отправить чек в WhatsApp','Басты бетке оралу':'На главную',
+'Сәлеметсіз бе! Тапсырыс үшін {x} Kaspi арқылы аудардым. Чекті жіберемін 👇':'Здравствуйте! Перевёл(а) {x} через Kaspi за заказ. Отправляю чек 👇',
+'ЖАҢА ТАПСЫРЫС':'НОВЫЙ ЗАКАЗ','БАСҚА ҚАЛА':'ДРУГОЙ ГОРОД','Жалпы салмақ':'Общий вес','Тауарлар':'Товары','келісім бойынша':'по договорённости',
+'ТӨЛЕНЕТІНІ (өнімдер)':'К ОПЛАТЕ (товары)','БАРЛЫҒЫ':'ИТОГО','Көше':'Улица','Үй':'Дом','Жеткізу тәсілі':'Способ доставки','Домофон / ескертпе':'Домофон / комментарий',
+'Тіл':'Язык','total':'Итого'
+};
+const KK_K={total:'Барлығы'};
+let lang='kk';try{lang=localStorage.getItem('lang')||'kk'}catch(e){}
+function T(k,vars){let s=(lang=='ru'&&RU[k]!=null)?RU[k]:(KK_K[k]||k);if(vars)for(const x in vars)s=s.split('{'+x+'}').join(vars[x]);return s}
+const PN=p=>lang=='ru'&&p.nr?p.nr:p.n, PD=p=>lang=='ru'&&p.dr?p.dr:p.d;
+const _orig=new WeakMap(),_origA=new WeakMap();
+function i18nStatic(){
+  const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('script,style,#grid,#strip,#p1,#p3,#p4,#toast,svg')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});
+  let n;while(n=w.nextNode()){
+    let o=_orig.get(n); const t=n.nodeValue.trim();
+    if(o==null){if(!t||RU[t]==null)continue;o=n.nodeValue;_orig.set(n,o)}
+    const k=o.trim(); n.nodeValue=lang=='ru'?o.replace(k,RU[k]):o;
+  }
+  document.querySelectorAll('[aria-label]').forEach(e=>{let o=_origA.get(e);if(o==null){o=e.getAttribute('aria-label');if(RU[o]==null)return;_origA.set(e,o)}e.setAttribute('aria-label',T(o))});
+  document.querySelectorAll('[data-k]').forEach(e=>e.textContent=T(e.dataset.k));
+}
+function setLang(l){
+  lang=l;try{localStorage.setItem('lang',l)}catch(e){}
+  document.documentElement.lang=l=='ru'?'ru':'kk';
+  document.querySelectorAll('#langT button').forEach(b=>b.classList.toggle('on',b.dataset.l==l));
+  i18nStatic();renderCards();renderDays();setStep(step);
+  $('#lName').textContent=city=='ast'?T('Атыңыз'):T('Аты-жөні *');
+  if(step==4&&_lastPay)showPay(_lastPay[0],_lastPay[1]);
+  update();
+}
+
 
 let cart={}; try{cart=JSON.parse(localStorage.getItem('cart')||'{}')}catch(e){}
 for(const k in cart) if(!byId(k)) delete cart[k];
@@ -627,26 +709,25 @@ const save=()=>{try{localStorage.setItem('cart',JSON.stringify(cart))}catch(e){}
 /* products — Kaspi сияқты: «Себетке» басқанда 1 кг қосылады, сосын − + себеттің өзін өзгертеді */
 const card=p=>`
 <article class="card" data-c="${p.c}">
-  <div class="ph">${pic(p)}${p.t?`<span class="tag">${p.t}</span>`:''}</div>
+  <div class="ph">${pic(p)}${p.t?`<span class="tag">${T(p.t)}</span>`:''}</div>
   <div class="body">
     <div class="price">${fmt(p.pr)}<small> / кг</small></div>
-    <h3 class="name">${p.n}</h3>
-    <p class="desc">${p.d}</p>
+    <h3 class="name">${PN(p)}</h3>
+    <p class="desc">${PD(p)}</p>
     <div class="act" data-act="${p.id}"></div>
   </div>
 </article>`;
-$('#grid').innerHTML=P.map(card).join('');
-$('#strip').innerHTML=P.map(card).join('');
+function renderCards(){$('#grid').innerHTML=P.map(card).join('');$('#strip').innerHTML=P.map(card).join('');const c=document.querySelector('.cat.on');if(c)filterCat(c.dataset.c);renderActs()}
 function renderActs(){
   document.querySelectorAll('[data-act]').forEach(el=>{
     const id=el.dataset.act,q=cart[id];
-    el.innerHTML=q?`<div class="qty in"><button data-cm="${id}" aria-label="Азайту">${q<=STEP?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>':'−'}</button><b>${kg(q)}<small>${fmt(q*byId(id).pr)}</small></b><button data-cp="${id}" aria-label="Көбейту">+</button></div>`
-      :`<button class="add" data-a="${id}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Себетке</button>`;
+    el.innerHTML=q?`<div class="qty in"><button data-cm="${id}" aria-label="${T('Азайту')}">${q<=STEP?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>':'−'}</button><b>${kg(q)}<small>${fmt(q*byId(id).pr)}</small></b><button data-cp="${id}" aria-label="${T('Көбейту')}">+</button></div>`
+      :`<button class="add" data-a="${id}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>${T('Себетке')}</button>`;
   });
 }
 function cartClick(e){
   const b=e.target.closest('button');if(!b)return;const d=b.dataset;
-  if(d.a){cart[d.a]=1;save();fly(b.closest('.card').querySelector('.ph'),d.a);buzz();toast(byId(d.a).n,d.a,'1 кг себетке салынды')}
+  if(d.a){cart[d.a]=1;save();fly(b.closest('.card').querySelector('.ph'),d.a);buzz();toast(PN(byId(d.a)),d.a,T('1 кг себетке салынды'))}
   else if(d.cp){cart[d.cp]=Math.min(50,cart[d.cp]+STEP);buzz()}
   else if(d.cm){cart[d.cm]-=STEP;if(cart[d.cm]<STEP)delete cart[d.cm];buzz()}
   else if(d.rm){delete cart[d.rm]}
@@ -659,8 +740,9 @@ $('#strip').addEventListener('click',cartClick);
 $('#cats').addEventListener('click',e=>{
   const b=e.target.closest('.cat'); if(!b)return;
   document.querySelectorAll('.cat').forEach(x=>x.classList.toggle('on',x==b));
-  document.querySelectorAll('.card').forEach(c=>c.classList.toggle('hide',!(b.dataset.c=='all'||c.dataset.c.split(' ').includes(b.dataset.c))));
+  filterCat(b.dataset.c);
 });
+function filterCat(cat){document.querySelectorAll('#grid .card').forEach(c=>c.classList.toggle('hide',!(cat=='all'||c.dataset.c.split(' ').includes(cat))))}
 
 function fly(from,id){
   const tb=$('.tabbar a[data-r=cart]'),useTab=getComputedStyle($('#tabbar')).display!='none';const r=from.getBoundingClientRect(),t=(useTab?tb.querySelector('.tb-ic'):$('#cartBtn')).getBoundingClientRect();
@@ -679,17 +761,17 @@ function totals(){let w=0,s=0;for(const id in cart){w+=cart[id];s+=cart[id]*byId
 function update(){
   const {w,s,d,t,far}=totals(),ids=Object.keys(cart),n=ids.length;
   $('#badge').textContent=n;$('#badge').classList.toggle('on',n>0);
-  $('#cartBtnSum').textContent=n?fmt(t):'Себет';
+  $('#cartBtnSum').textContent=n?fmt(t):T('Себет');
   $('#bar').classList.toggle('on',n>0&&document.body.classList.contains('r-shop'));$('#tbBadge').textContent=n;$('#tbBadge').classList.toggle('on',n>0);
-  $('#barT').textContent=`${n} өнім · ${kg(w)}`;$('#barS').textContent=fmt(t);
+  $('#barT').textContent=T('{n} өнім · {w}',{n,w:kg(w)});$('#barS').textContent=fmt(t);
   $('#kgT').textContent=kg(w);$('#subT').textContent=fmt(s);
-  const dTxt=w===0?'—':far?'Келісім бойынша':d===0?'Тегін':fmt(d);$('#delT').innerHTML=dTxt=='Тегін'?'<span class="free">Тегін</span>':dTxt;$('#totSub').textContent=w?`${kg(w)} · жеткізу: ${dTxt.toLowerCase()}`:'';
+  const dTxt=w===0?'—':far?T('Келісім бойынша'):d===0?T('Тегін'):fmt(d);$('#delT').innerHTML=(d===0&&!far&&w)?`<span class="free">${dTxt}</span>`:dTxt;$('#totSub').textContent=w?T('{w} · жеткізу: {d}',{w:kg(w),d:dTxt.toLowerCase()}):'';
   $('#totT').textContent=fmt(t);
   renderActs();
   const left=FREE_KG-w, pct=Math.min(1,w/FREE_KG), C=2*Math.PI*18;
-  $('#p1').innerHTML=n===0?`<div class="empty"><svg width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="#e7ecf8"/><path d="M22 36h40l-4 22a6 6 0 0 1-6 5H32a6 6 0 0 1-6-5z" fill="#fff" stroke="#1e3f94" stroke-width="2.5"/><path d="M32 36l6-12M52 36l-6-12" stroke="#1e3f94" stroke-width="2.5" stroke-linecap="round"/></svg><h3>Себет әзірге бос</h3><p>Өнімді таңдап, салмағын белгілеңіз.</p><a class="btn btn-y" href="#shop">Өнімдерге өту</a></div>`:
-   `<div class="prog"><svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="23" r="18" fill="none" stroke="#e7ecf8" stroke-width="5"/><circle cx="23" cy="23" r="18" fill="none" stroke="${left>0?'#f3c53a':'#14a35a'}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}" transform="rotate(-90 23 23)" style="transition:stroke-dashoffset .6s"/></svg><p>${far?`Басқа қалаға жеткізу<small>Құны тапсырыстан кейін хабарланады</small>`:left>0?`Тегін жеткізуге тағы ${kg(left)} қалды<small>Қазір жеткізу ${fmt(DELIVERY)}</small>`:`Жеткізу тегін<small>Себетте ${kg(w)}, бұл 2 кг-нан көп</small>`}</p></div>`+
-   ids.map(id=>{const p=byId(id);return`<div class="line"><div class="th">${thumb(id)}</div><div><div class="n">${p.n}</div><div class="p">${fmt(p.pr)} / кг</div><div class="qty"><button data-cm="${id}" aria-label="Азайту">−</button><b>${kg(cart[id])}</b><button data-cp="${id}" aria-label="Көбейту">+</button></div></div><div class="sum">${fmt(cart[id]*p.pr)}<button class="rm" data-rm="${id}" aria-label="Өшіру"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button></div></div>`}).join('');
+  $('#p1').innerHTML=n===0?`<div class="empty"><svg width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="#e7ecf8"/><path d="M22 36h40l-4 22a6 6 0 0 1-6 5H32a6 6 0 0 1-6-5z" fill="#fff" stroke="#1e3f94" stroke-width="2.5"/><path d="M32 36l6-12M52 36l-6-12" stroke="#1e3f94" stroke-width="2.5" stroke-linecap="round"/></svg><h3>${T('Себет әзірге бос')}</h3><p>${T('Өнімді таңдап, салмағын белгілеңіз.')}</p><a class="btn btn-y" href="#shop">${T('Өнімдерге өту')}</a></div>`:
+   `<div class="prog"><svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="23" r="18" fill="none" stroke="#e7ecf8" stroke-width="5"/><circle cx="23" cy="23" r="18" fill="none" stroke="${left>0?'#f3c53a':'#14a35a'}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}" transform="rotate(-90 23 23)" style="transition:stroke-dashoffset .6s"/></svg><p>${far?`${T('Басқа қалаға жеткізу')}<small>${T('Құны тапсырыстан кейін хабарланады')}</small>`:left>0?`${T('Тегін жеткізуге тағы {x} қалды',{x:kg(left)})}<small>${T('Қазір жеткізу {x}',{x:fmt(DELIVERY)})}</small>`:`${T('Жеткізу тегін')}<small>${T('Себетте {x}, бұл 2 кг-нан көп',{x:kg(w)})}</small>`}</p></div>`+
+   ids.map(id=>{const p=byId(id);return`<div class="line"><div class="th">${thumb(id)}</div><div><div class="n">${PN(p)}</div><div class="p">${fmt(p.pr)} / кг</div><div class="qty"><button data-cm="${id}" aria-label="${T('Азайту')}">−</button><b>${kg(cart[id])}</b><button data-cp="${id}" aria-label="${T('Көбейту')}">+</button></div></div><div class="sum">${fmt(cart[id]*p.pr)}<button class="rm" data-rm="${id}" aria-label="${T('Өшіру')}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button></div></div>`}).join('');
   $('#cta').disabled=n===0;
   if(n===0&&step>1&&step<4)setStep(1);
 }
@@ -702,10 +784,10 @@ function closeCart(){if(step==4)setStep(1);location.hash='shop'}
 const WAICON='<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.2z"/></svg>';
 function setStep(s){
   step=s;dr.classList.toggle('s2',s==2);dr.classList.toggle('s3',s==3);dr.classList.toggle('s4',s==4);
-  $('#dTitle').textContent=['Себет','Мекенжай','Тексеру','Kaspi-мен төлеу'][s-1];
+  $('#dTitle').textContent=T(['Себет','Мекенжай','Тексеру','Kaspi-мен төлеу'][s-1]);
   document.querySelectorAll('#track div').forEach((x,i)=>x.classList.toggle('on',i<s));
   const c=$('#cta');c.classList.toggle('kas',s==3&&!!ORDER_ENDPOINT);c.classList.toggle('wa',s==3&&!ORDER_ENDPOINT);
-  c.innerHTML=s==1?'Мекенжайға өту':s==2?'Тапсырысты тексеру':(ORDER_ENDPOINT?'Тапсырыс беру және Kaspi-мен төлеу':WAICON+' WhatsApp-қа жіберу');
+  c.innerHTML=s==1?T('Мекенжайға өту'):s==2?T('Тапсырысты тексеру'):(ORDER_ENDPOINT?T('Тапсырыс беру және Kaspi-мен төлеу'):WAICON+' '+T('WhatsApp-қа жіберу'));
   if(s==3)renderSummary();
 }
 $('#cartBtn').onclick=openCart;$('#barBtn').onclick=openCart;
@@ -715,7 +797,7 @@ $('#back').onclick=()=>setStep(step-1);
 /* city: Астана / басқа қала */
 $('#cityT').onclick=e=>{const b=e.target.closest('button');if(!b)return;city=b.dataset.ct;
   $('#cityT').classList.toggle('r',city!='ast');$('#cityT').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x==b));
-  $('#p2').classList.toggle('other',city!='ast');$('#lName').textContent=city=='ast'?'Атыңыз':'Аты-жөні *';
+  $('#p2').classList.toggle('other',city!='ast');$('#lName').textContent=city=='ast'?T('Атыңыз'):T('Аты-жөні *');
   document.querySelectorAll('.p2 .err').forEach(x=>x.classList.remove('err'));update()};
 $('#mSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;method=b.dataset.m;$('#mSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x==b));$('#mSeg').classList.remove('err')};
 
@@ -723,7 +805,7 @@ $('#mSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;method=b.
 const SLOTS=[[10,13],[13,16],[16,19],[19,22]];let day=0,slot=null;
 const dn=['Жексенбі','Дүйсенбі','Сейсенбі','Сәрсенбі','Бейсенбі','Жұма','Сенбі'];
 const dAt=i=>{const d=new Date();d.setDate(d.getDate()+i);return d};
-const dayLabel=i=>i==0?'Бүгін':i==1?'Ертең':dn[dAt(i).getDay()];
+const dayLabel=i=>T(i==0?'Бүгін':i==1?'Ертең':dn[dAt(i).getDay()]);
 const dateStr=i=>dAt(i).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'});
 function renderDays(){$('#dSeg').innerHTML=[0,1,2].map(i=>`<button type="button" data-d="${i}" class="${i==day?'on':''}">${dayLabel(i)}<small>${dateStr(i)}</small></button>`).join('');renderSlots()}
 function renderSlots(){const h=new Date().getHours();$('#tSeg').innerHTML=SLOTS.map(([a,b],i)=>{const dis=day==0&&h>=a-1;if(dis&&slot==i)slot=null;return`<button type="button" data-t="${i}" ${dis?'disabled':''} class="${slot==i?'on':''}">${a}:00–${b}:00</button>`}).join('')}
@@ -738,8 +820,8 @@ document.querySelectorAll('.p2 input').forEach(i=>i.addEventListener('input',()=
 
 const v=id=>$('#'+id).value.trim();
 function addrText(){
-  let a=`${v('fStreet')}, үй ${v('fHouse')}`;
-  if(v('fFlat'))a+=`, пәтер ${v('fFlat')}`;if(v('fEntr'))a+=`, подъезд ${v('fEntr')}`;if(v('fFloor'))a+=`, ${v('fFloor')}-қабат`;
+  let a=`${v('fStreet')}, ${T('үй {x}',{x:v('fHouse')})}`;
+  if(v('fFlat'))a+=', '+T('пәтер {x}',{x:v('fFlat')});if(v('fEntr'))a+=', '+T('подъезд {x}',{x:v('fEntr')});if(v('fFloor'))a+=', '+T('{x}-қабат',{x:v('fFloor')});
   return a;
 }
 const cityName=()=>city=='ast'?'Астана':v('fCity');
@@ -750,33 +832,33 @@ function validate(){
   need.forEach(([w,good])=>{$('#'+w).classList.toggle('err',!good);if(!good){ok=false;first=first||$('#'+w)}});
   if(city=='ast'&&slot==null){ok=false;$('#tSeg').classList.add('err');first=first||$('#tSeg')}
   if(city!='ast'&&!method){ok=false;$('#mSeg').classList.add('err');first=first||$('#mSeg')}
-  if(!ok){first.scrollIntoView({behavior:'smooth',block:'nearest'});toast(city!='ast'&&!method&&first.id=='mSeg'?'Жеткізу тәсілін таңдаңыз':'Қызыл жолдарды толтырыңыз')}
+  if(!ok){first.scrollIntoView({behavior:'smooth',block:'nearest'});toast(T(city!='ast'&&!method&&first.id=='mSeg'?'Жеткізу тәсілін таңдаңыз':'Қызыл жолдарды толтырыңыз'))}
   return ok;
 }
 function renderSummary(){
   const [a,b]=city=='ast'?SLOTS[slot]:[0,0];
   $('#p3').innerHTML=`
-  <div class="sum-card"><h4>Өнімдер <button onclick="setStep(1)">Өзгерту</button></h4>${Object.keys(cart).map(id=>`<div class="li"><span>${byId(id).n}, ${kg(cart[id])}</span><span>${fmt(cart[id]*byId(id).pr)}</span></div>`).join('')}</div>
-  <div class="sum-card"><h4>Жеткізу <button onclick="setStep(2)">Өзгерту</button></h4>
-    <div class="li"><span>Мекенжай</span><span>${cityName()}, ${addrText()}</span></div>
-    ${city=='ast'?`<div class="li"><span>Күні</span><span>${dayLabel(day)}, ${dateStr(day)}</span></div><div class="li"><span>Уақыты</span><span>${a}:00 – ${b}:00</span></div>`:`<div class="li"><span>Тәсілі</span><span>${method}</span></div><div class="li"><span>Жеткізу құны</span><span>Келісім бойынша</span></div><p class="oc-note" style="display:block;margin-top:8px">Жеткізу құны мен мерзімін тапсырыстан кейін WhatsApp арқылы хабарлаймыз. Қазір Kaspi арқылы тек өнімдердің құнын төлейсіз.</p>`}
-    <div class="li"><span>Телефон</span><span>${v('fPhone')}</span></div>
-    ${v('fName')?`<div class="li"><span>${city=='ast'?'Аты':'Аты-жөні'}</span><span>${v('fName')}</span></div>`:''}
-    ${v('fNote')?`<div class="li"><span>Ескертпе</span><span>${v('fNote')}</span></div>`:''}
+  <div class="sum-card"><h4>${T('Өнімдер')} <button onclick="setStep(1)">${T('Өзгерту')}</button></h4>${Object.keys(cart).map(id=>`<div class="li"><span>${PN(byId(id))}, ${kg(cart[id])}</span><span>${fmt(cart[id]*byId(id).pr)}</span></div>`).join('')}</div>
+  <div class="sum-card"><h4>${T('Жеткізу')} <button onclick="setStep(2)">${T('Өзгерту')}</button></h4>
+    <div class="li"><span>${T('Мекенжай')}</span><span>${cityName()}, ${addrText()}</span></div>
+    ${city=='ast'?`<div class="li"><span>${T('Күні')}</span><span>${dayLabel(day)}, ${dateStr(day)}</span></div><div class="li"><span>${T('Уақыты')}</span><span>${a}:00 – ${b}:00</span></div>`:`<div class="li"><span>${T('Тәсілі')}</span><span>${T(method)}</span></div><div class="li"><span>${T('Жеткізу құны')}</span><span>${T('Келісім бойынша')}</span></div><p class="oc-note" style="display:block;margin-top:8px">${T('Жеткізу құны мен мерзімін тапсырыстан кейін WhatsApp арқылы хабарлаймыз. Қазір Kaspi арқылы тек өнімдердің құнын төлейсіз.')}</p>`}
+    <div class="li"><span>${T('Телефон')}</span><span>${v('fPhone')}</span></div>
+    ${v('fName')?`<div class="li"><span>${T(city=='ast'?'Аты':'Аты-жөні')}</span><span>${v('fName')}</span></div>`:''}
+    ${v('fNote')?`<div class="li"><span>${T('Ескертпе')}</span><span>${v('fNote')}</span></div>`:''}
   </div>
-  <p class="wa-note">${WAICON.replace('currentColor','#25d366')}Батырманы басқанда WhatsApp ашылып, тапсырыс мәтіні өзі жазылады. Тек «Жіберу» түймесін басыңыз.</p>`;
+  <p class="wa-note">${WAICON.replace('currentColor','#25d366')}${T('Батырманы басқанда WhatsApp ашылып, тапсырыс мәтіні өзі жазылады. Тек «Жіберу» түймесін басыңыз.')}</p>`;
 }
 $('#cta').onclick=()=>{
   if(step==1){setStep(2);return}
   if(step==2){if(validate())setStep(3);return}
   const {w,s,d,t,far}=totals(),[a,b]=far?[0,0]:SLOTS[slot];
-  const items=Object.keys(cart).map((id,i)=>{const p=byId(id);return`${i+1}. ${p.n} — ${kg(cart[id])} × ${fmt(p.pr)} = ${fmt(cart[id]*p.pr)}`}).join('\n');
-  const addr=`\n• Көше: ${v('fStreet')}\n• Үй: ${v('fHouse')}`+(v('fFlat')?`\n• Пәтер: ${v('fFlat')}`:'')+(v('fEntr')?`\n• Подъезд: ${v('fEntr')}`:'')+(v('fFloor')?`\n• Қабат: ${v('fFloor')}`:'');
-  const msg=`🛒 *ЖАҢА ТАПСЫРЫС*${far?' — 🚚 *БАСҚА ҚАЛА*':''}\n\n${items}\n\n⚖️ Жалпы салмақ: ${kg(w)}\n💰 Тауарлар: ${fmt(s)}\n🚚 Жеткізу: ${far?'келісім бойынша ('+method+')':d?fmt(d):'Тегін'}\n✅ *${far?'ТӨЛЕНЕТІНІ (өнімдер)':'БАРЛЫҒЫ'}: ${fmt(t)}*\n\n👤 ${far?'Аты-жөні':'Аты'}: ${v('fName')||'—'}\n📞 WhatsApp: ${v('fPhone')}\n\n📍 *Мекенжай:* ${cityName()}${addr}`+
-   (far?`\n\n📦 *Жеткізу тәсілі:* ${method}`:`\n\n🕐 *Уақыты:* ${dayLabel(day)} (${dateStr(day)}), ${a}:00–${b}:00`)+(v('fNote')?`\n💬 Домофон / ескертпе: ${v('fNote')}`:'');
+  const items=Object.keys(cart).map((id,i)=>{const p=byId(id);return`${i+1}. ${PN(p)} — ${kg(cart[id])} × ${fmt(p.pr)} = ${fmt(cart[id]*p.pr)}`}).join('\n');
+  const addr=`\n• ${T('Көше')}: ${v('fStreet')}\n• ${T('Үй')}: ${v('fHouse')}`+(v('fFlat')?`\n• ${T('Пәтер')}: ${v('fFlat')}`:'')+(v('fEntr')?`\n• Подъезд: ${v('fEntr')}`:'')+(v('fFloor')?`\n• ${T('Қабат')}: ${v('fFloor')}`:'');
+  const msg=`🛒 *${T('ЖАҢА ТАПСЫРЫС')}*${far?' — 🚚 *'+T('БАСҚА ҚАЛА')+'*':''}\n\n${items}\n\n⚖️ ${T('Жалпы салмақ')}: ${kg(w)}\n💰 ${T('Тауарлар')}: ${fmt(s)}\n🚚 ${T('Жеткізу')}: ${far?T('келісім бойынша')+' ('+T(method)+')':d?fmt(d):T('Тегін')}\n✅ *${T(far?'ТӨЛЕНЕТІНІ (өнімдер)':'БАРЛЫҒЫ')}: ${fmt(t)}*\n\n👤 ${T(far?'Аты-жөні':'Аты')}: ${v('fName')||'—'}\n📞 WhatsApp: ${v('fPhone')}\n\n📍 *${T('Мекенжай')}:* ${cityName()}${addr}`+
+   (far?`\n\n📦 *${T('Жеткізу тәсілі')}:* ${T(method)}`:`\n\n🕐 *${T('Уақыты')}:* ${dayLabel(day)} (${dateStr(day)}), ${a}:00–${b}:00`)+(v('fNote')?`\n💬 ${T('Домофон / ескертпе')}: ${v('fNote')}`:'')+(lang=='ru'?'\n🌐 Язык клиента: русский':'');
   copyQuiet(String(Math.round(t)));
   if(!ORDER_ENDPOINT){window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');showPay(t,false);cart={};save();update();return}
-  const btn=$('#cta');btn.classList.add('sending');btn.innerHTML='<span class="spin"></span> Тапсырыс жіберілуде…';
+  const btn=$('#cta');btn.classList.add('sending');btn.innerHTML='<span class="spin"></span> '+T('Тапсырыс жіберілуде…');
   sendOrder(msg).then(ok=>{
     if(!ok) window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
     btn.classList.remove('sending');showPay(t,ok);cart={};save();update();
@@ -797,34 +879,37 @@ function sendOrder(msg){
 }
 function copyQuiet(txt){try{navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{})}catch(e){}}
 function copyTxt(txt,btn){
-  const done=()=>{btn.classList.add('ok');btn.textContent='Көшірілді ✓';setTimeout(()=>{btn.classList.remove('ok');btn.textContent='Көшіру'},1600)};
+  const done=()=>{btn.classList.add('ok');btn.textContent=T('Көшірілді ✓');setTimeout(()=>{btn.classList.remove('ok');btn.textContent=T('Көшіру')},1600)};
   (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(done).catch(()=>{const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();try{document.execCommand('copy')}catch(e){}t.remove();done()});
 }
+let _lastPay=null;
 function showPay(total,auto){
+  _lastPay=[total,auto];
   const amt=String(Math.round(total));
   $('#p4').innerHTML=`
-  <div class="paid-ok"><i>✓</i>${auto?'Тапсырысыңыз қабылданды! Енді Kaspi арқылы төлеңіз.':'Тапсырыс WhatsApp-та ашылды, «Жіберу» басыңыз. Сосын Kaspi арқылы төлеңіз.'}</div>
+  <div class="paid-ok"><i>✓</i>${T(auto?'Тапсырысыңыз қабылданды! Енді Kaspi арқылы төлеңіз.':'Тапсырыс WhatsApp-та ашылды, «Жіберу» басыңыз. Сосын Kaspi арқылы төлеңіз.')}</div>
   <div class="kcard">
-    <div class="lb">Төленетін сумма${city!='ast'?' (жеткізу бөлек)':''}</div>
+    <div class="lb">${T('Төленетін сумма')}${city!='ast'?T(' (жеткізу бөлек)'):''}</div>
     <div class="amt">${fmt(total)}</div>
-    <div class="kfield"><div><small>Сумма</small><b>${amt}</b></div><button class="copy" data-copy="${amt}">Көшіру</button></div>
-    <div class="kfield"><div><small>Kaspi нөмірі · ${KASPI_OWNER}</small><b>${KASPI_PHONE}</b></div><button class="copy" data-copy="${KASPI_PHONE.replace(/\s/g,'')}">Көшіру</button></div>
+    <div class="kfield"><div><small>${T('Сумма')}</small><b>${amt}</b></div><button class="copy" data-copy="${amt}">${T('Көшіру')}</button></div>
+    <div class="kfield"><div><small>${T('Kaspi нөмірі')} · ${KASPI_OWNER}</small><b>${KASPI_PHONE}</b></div><button class="copy" data-copy="${KASPI_PHONE.replace(/\s/g,'')}">${T('Көшіру')}</button></div>
   </div>
-  <a class="kopen" href="https://kaspi.kz/transfers" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>Kaspi қосымшасын ашу</a>
+  <a class="kopen" href="https://kaspi.kz/transfers" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>${T('Kaspi қосымшасын ашу')}</a>
   <ol class="ksteps">
-    <li>Kaspi-де «Аударымдар» → «Kaspi клиентіне» бөліміне кіріңіз</li>
-    <li>Көшірілген нөмірді қойыңыз, алушы «${KASPI_OWNER}» екенін тексеріңіз</li>
-    <li>${fmt(total)} сомасын енгізіп, аударыңыз</li>
-    <li>Чекті төмендегі батырма арқылы WhatsApp-қа жіберіңіз</li>
+    <li>${T('Kaspi-де «Аударымдар» → «Kaspi клиентіне» бөліміне кіріңіз')}</li>
+    <li>${T('Көшірілген нөмірді қойыңыз, алушы «{x}» екенін тексеріңіз',{x:KASPI_OWNER})}</li>
+    <li>${T('{x} сомасын енгізіп, аударыңыз',{x:fmt(total)})}</li>
+    <li>${T('Чекті төмендегі батырма арқылы WhatsApp-қа жіберіңіз')}</li>
   </ol>
   <div class="kbtns">
-    <a class="cta wa" href="https://wa.me/${WA}?text=${encodeURIComponent('Сәлеметсіз бе! Тапсырыс үшін '+fmt(total)+' Kaspi арқылы аудардым. Чекті жіберемін 👇')}" target="_blank" rel="noopener">${WAICON} Чекті WhatsApp-қа жіберу</a>
-    <button class="cta ghost" onclick="setStep(1);location.hash='home'">Басты бетке оралу</button>
+    <a class="cta wa" href="https://wa.me/${WA}?text=${encodeURIComponent(T('Сәлеметсіз бе! Тапсырыс үшін {x} Kaspi арқылы аудардым. Чекті жіберемін 👇',{x:fmt(total)}))}" target="_blank" rel="noopener">${WAICON} ${T('Чекті WhatsApp-қа жіберу')}</a>
+    <button class="cta ghost" onclick="setStep(1);location.hash='home'">${T('Басты бетке оралу')}</button>
   </div>`;
   setStep(4);
 }
 $('#p4').addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copyTxt(b.dataset.copy,b)});
 
+$('#langT').onclick=e=>{const b=e.target.closest('button');if(b&&b.dataset.l!=lang)setLang(b.dataset.l)};
 function route(){
   const h=(location.hash||'').slice(1),v=['home','shop','cart'].includes(h)?h:'home';
   document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on',x.id=='v'+v[0].toUpperCase()+v.slice(1)));
@@ -834,6 +919,7 @@ function route(){
   scrollTo({top:0,behavior:'instant'});update();
 }
 addEventListener('hashchange',route);route();
+setLang(lang);
 /* iOS Safari: екі рет басу мен саусақпен үлкейтуді өшіру */
 ['gesturestart','gesturechange','gestureend'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
 addEventListener('scroll',()=>$('#top').classList.toggle('scrolled',scrollY>10),{passive:true});
