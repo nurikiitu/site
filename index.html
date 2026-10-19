@@ -418,23 +418,47 @@ input,textarea{font-size:16px!important}
   .cta{height:50px}
 }
 @media(max-width:820px) and (max-height:700px){
-  .fl input{height:42px;padding:17px 11px 3px}
-  .fl span{top:11px;font-size:14px}
-  .fl input:focus+span,.fl input:not(:placeholder-shown)+span{top:4px;font-size:10.5px}
-  .seg button,.seg.c4 button{min-height:38px}
-  .p2{gap:6px}.p2 .g{gap:6px}
-  .p2 .toggle button,.p2 .toggle .pill{height:32px}
-  .mini{margin:0 2px 4px}
   .kese{width:min(150px,22dvh)}
   .hero h1{font-size:22px}.hero p{font-size:13px}
   .facts div{padding:7px 4px}
 }
 
 
+
+/* ===== mobile checkout: no scroll ===== */
+@media(max-width:820px){
+  body.r-cart .top{display:none}
+  body.r-cart .view.on{height:calc(100vh - 64px - env(safe-area-inset-bottom));height:calc(100dvh - 64px - env(safe-area-inset-bottom))}
+  .dh{padding:10px 14px 8px}
+  .dh .r{gap:10px}
+  .dh h2{font-size:18px;flex:1}
+  .dh .lang-mini{margin-left:auto}
+  .track{margin-top:8px}
+  .track div{font-size:0;line-height:0}
+  .track div i{margin:0;height:4px}
+  .df{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;padding:8px 14px}
+  .df .row.tot{margin:0;display:block}
+  .df .row.tot span{display:block}
+  .df .row.tot span:first-child{font-size:12px;color:var(--muted);font-weight:600}
+  .df .row.tot small{font-size:11px;max-width:42vw;white-space:normal}
+  .df .row.tot span:last-child{font-size:22px;line-height:1.1}
+  .df .cta{height:50px;font-size:14.5px;padding:0 10px}
+  .p2{gap:clamp(5px,1.1dvh,9px)}
+  .p2 .g{gap:clamp(5px,1.1dvh,8px)}
+  .p2 .fl input{height:clamp(40px,6.4dvh,50px);padding:clamp(15px,2.6dvh,20px) 11px 3px}
+  .p2 .fl span{top:clamp(10px,1.9dvh,15px);font-size:14.5px}
+  .p2 .fl input:focus+span,.p2 .fl input:not(:placeholder-shown)+span{top:clamp(3px,.8dvh,6px);font-size:10.5px}
+  .p2 .seg button,.p2 .seg.c4 button{min-height:clamp(36px,5.8dvh,46px)}
+  .p2 .toggle button,.p2 .toggle .pill{height:clamp(30px,4.6dvh,36px)}
+  .p2 .mini{margin:0 2px 3px;font-size:12px}
+  .pane.p2{padding:10px 14px 10px}
+}
 /* language switch */
 .lang{margin-left:auto;display:flex;background:rgba(255,255,255,.14);border-radius:12px;padding:3px;gap:2px}
 .lang button{height:34px;min-width:46px;padding:0 10px;border-radius:9px;color:#c9d4f2;font-weight:700;font-size:13px;letter-spacing:.3px;transition:background .25s,color .25s}
 .lang button.on{background:var(--butter);color:var(--ink)}
+.lang-mini{display:none!important;width:auto!important;padding:0 10px;font-size:12.5px!important;font-weight:700}
+@media(max-width:820px){.lang-mini{display:grid!important}}
 .top .cartbtn{margin-left:0}
 @media(max-width:820px){.lang button{height:32px;min-width:44px;font-size:12.5px}}
 /* ===== Kaspi payment ===== */
@@ -548,7 +572,7 @@ input,textarea{font-size:16px!important}
 <div class="view" id="vCart"><div class="cartpage">
 <aside class="dr" id="dr" aria-label="Себет">
   <div class="dh">
-    <div class="r"><button class="ib back" id="back" aria-label="Артқа">←</button><h2 id="dTitle">Себет</h2><button class="ib x" id="close" aria-label="Жабу">×</button></div>
+    <div class="r"><button class="ib back" id="back" aria-label="Артқа">←</button><h2 id="dTitle">Себет</h2><button class="ib lang-mini" id="langMini" type="button">РУС</button><button class="ib x" id="close" aria-label="Жабу">×</button></div>
     <div class="track" id="track"><div class="on"><i></i>Себет</div><div><i></i>Мекенжай</div><div><i></i>Тексеру</div></div>
   </div>
   <div class="panes">
@@ -688,7 +712,7 @@ function i18nStatic(){
 function setLang(l){
   lang=l;try{localStorage.setItem('lang',l)}catch(e){}
   document.documentElement.lang=l=='ru'?'ru':'kk';
-  document.querySelectorAll('#langT button').forEach(b=>b.classList.toggle('on',b.dataset.l==l));
+  document.querySelectorAll('#langT button').forEach(b=>b.classList.toggle('on',b.dataset.l==l));$('#langMini').textContent=l=='ru'?'ҚАЗ':'РУС';
   i18nStatic();renderCards();renderDays();setStep(step);
   $('#lName').textContent=city=='ast'?T('Атыңыз'):T('Аты-жөні *');
   if(step==4&&_lastPay)showPay(_lastPay[0],_lastPay[1]);
@@ -909,6 +933,7 @@ function showPay(total,auto){
 }
 $('#p4').addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copyTxt(b.dataset.copy,b)});
 
+$('#langMini').onclick=()=>setLang(lang=='ru'?'kk':'ru');
 $('#langT').onclick=e=>{const b=e.target.closest('button');if(b&&b.dataset.l!=lang)setLang(b.dataset.l)};
 function route(){
   const h=(location.hash||'').slice(1),v=['home','shop','cart'].includes(h)?h:'home';
@@ -916,6 +941,7 @@ function route(){
   document.body.classList.remove('r-home','r-shop','r-cart');document.body.classList.add('r-'+v);
   document.querySelectorAll('[data-r]').forEach(a=>a.classList.toggle('on',a.dataset.r==v));
   if(v!='cart'&&step==4)setStep(1);
+  $('#toast').classList.remove('on');
   scrollTo({top:0,behavior:'instant'});update();
 }
 addEventListener('hashchange',route);route();
