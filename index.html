@@ -15,7 +15,7 @@
   --ink:#121a33; --muted:#66708a; --line:#dfe3ec;
   --ok:#14a35a; --err:#d43c2c; --wa:#25d366;
   --ease:cubic-bezier(.22,1,.36,1);
-  --disp:'Unbounded',system-ui,sans-serif; --txt:'Golos Text',system-ui,sans-serif;
+  --disp:'Montserrat',system-ui,sans-serif; --txt:'Montserrat',system-ui,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -46,7 +46,7 @@ button{cursor:pointer;border:0;background:none}
 .hero{background:var(--kese);color:#fff;position:relative;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:0;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80' fill='none' stroke='white' stroke-width='3'%3E%3Cpath d='M40 40c0-12 10-18 16-12s0 14-6 12M40 40c0-12-10-18-16-12s0 14 6 12M40 40c0 12 10 18 16 12s0-14-6-12M40 40c0 12-10 18-16 12s0-14 6-12'/%3E%3C/svg%3E")}
 .hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:30px;padding-top:56px;padding-bottom:84px}
-.hero h1{font-family:var(--disp);font-weight:800;font-size:clamp(34px,5.2vw,64px);line-height:1.04;letter-spacing:-1.5px}
+.hero h1{font-family:var(--disp);font-weight:800;font-size:clamp(34px,5.2vw,64px);line-height:1.08;letter-spacing:-1px}
 .hero p{margin-top:20px;font-size:18px;color:#d3dcf5;max-width:470px}
 .hero .acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:56px;padding:0 26px;border-radius:14px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .2s,background .3s,box-shadow .3s}
@@ -545,8 +545,8 @@ function setStep(s){
   step=s;dr.classList.toggle('s2',s==2);dr.classList.toggle('s3',s==3);dr.classList.toggle('s4',s==4);
   $('#dTitle').textContent=['Себет','Мекенжай','Тексеру','Kaspi-мен төлеу'][s-1];
   document.querySelectorAll('#track div').forEach((x,i)=>x.classList.toggle('on',i<s));
-  const c=$('#cta');c.classList.toggle('kas',s==3);
-  c.innerHTML=s==1?'Мекенжайға өту':s==2?'Тапсырысты тексеру':'Тапсырыс беру және Kaspi-мен төлеу';
+  const c=$('#cta');c.classList.toggle('kas',s==3&&!!ORDER_ENDPOINT);c.classList.toggle('wa',s==3&&!ORDER_ENDPOINT);
+  c.innerHTML=s==1?'Мекенжайға өту':s==2?'Тапсырысты тексеру':(ORDER_ENDPOINT?'Тапсырыс беру және Kaspi-мен төлеу':WAICON+' WhatsApp-қа жіберу');
   if(s==3)renderSummary();
 }
 $('#cartBtn').onclick=openCart;$('#barBtn').onclick=openCart;
@@ -614,6 +614,7 @@ $('#cta').onclick=()=>{
    (house=='flat'?`\n• Пәтер: ${v('fFlat')}`+(v('fEntr')?`\n• Подъезд: ${v('fEntr')}`:'')+(v('fFloor')?`\n• Қабат: ${v('fFloor')}`:'')+(v('fCode')?`\n• Домофон: ${v('fCode')}`:''):'')+
    `\n\n🕐 *Уақыты:* ${dayLabel(day)} (${dateStr(day)}), ${a}:00–${b}:00`+(v('fNote')?`\n💬 Ескертпе: ${v('fNote')}`:'');
   copyQuiet(String(Math.round(t)));
+  if(!ORDER_ENDPOINT){window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');showPay(t,false);cart={};save();update();return}
   const btn=$('#cta');btn.classList.add('sending');btn.innerHTML='<span class="spin"></span> Тапсырыс жіберілуде…';
   sendOrder(msg).then(ok=>{
     if(!ok) window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
