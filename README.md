@@ -11,9 +11,6 @@
 ## Фото
 `img/<id>.jpg` файлын салсаңыз (мысалы `img/kazy.jpg`), сурет орнына фото шығады.
 
-## Тапсырысты WhatsApp-қа автомат жіберу (CallMeBot, тегін)
-Клиент ештеңе баспайды — тапсырыс +7 775 125 50 73 нөміріне өзі келеді.
-1. Тапсырыс келетін телефонда CallMeBot нөмірін контактіге сақтаңыз (нөмірін callmebot.com сайтынан тексеріңіз).
-2. Оған WhatsApp-та жазыңыз: `I allow callmebot to send me messages`
-3. Жауапта apikey келеді. Оны `index.html` ішіндегі `CALLMEBOT_KEY=''` жолына қойыңыз.
-Кілт бос болса, бұрынғыдай клиенттің WhatsApp-ы ашылады.
+## Тапсырысты WhatsApp-қа автомат жіберу (Green API + Google Apps Script)
+Толық нұсқаулық: [SETUP-WHATSAPP.md](SETUP-WHATSAPP.md). Дайын болғанда `index.html` ішіндегі `ORDER_ENDPOINT` жолына Apps Script сілтемесін қойыңыз.
+Бос болса, бұрынғыдай клиенттің WhatsApp-ы ашылады.

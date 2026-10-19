@@ -624,13 +624,14 @@ $('#cta').onclick=()=>{
 
 /* ===== Kaspi аударым ===== */
 const KASPI_PHONE='+7 775 125 50 73', KASPI_OWNER='Аты Ж.';
-/* Тапсырысты WhatsApp-қа АВТОМАТ жіберу (CallMeBot). Кілтті осында қойыңыз — README қараңыз.
-   Кілт бос болса, ескі тәсіл қолданылады: клиенттің WhatsApp-ы ашылады. */
-const CALLMEBOT_KEY='';
+/* Тапсырысты WhatsApp-қа АВТОМАТ жіберу: сайт → Google Apps Script → Green API → WhatsApp.
+   ORDER_ENDPOINT — Apps Script "Web app" сілтемесі (.../exec). Бос болса, клиенттің WhatsApp-ы ашылады. */
+const ORDER_ENDPOINT='';
 function sendOrder(msg){
-  if(!CALLMEBOT_KEY) return Promise.resolve(false);
-  const url='https://api.callmebot.com/whatsapp.php?phone=%2B'+WA+'&text='+encodeURIComponent(msg)+'&apikey='+encodeURIComponent(CALLMEBOT_KEY);
-  return Promise.race([fetch(url,{mode:'no-cors'}).then(()=>true).catch(()=>{new Image().src=url;return true}),new Promise(r=>setTimeout(()=>r(true),6000))]);
+  if(!ORDER_ENDPOINT) return Promise.resolve(false);
+  const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(),12000);
+  return fetch(ORDER_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({text:msg}),signal:ctrl.signal})
+    .then(r=>r.json()).then(j=>!!j.ok).catch(()=>false).finally(()=>clearTimeout(to));
 }
 function copyQuiet(txt){try{navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{})}catch(e){}}
 function copyTxt(txt,btn){
