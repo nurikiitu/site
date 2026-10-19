@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ауыл дәмі — құрт, қазы, сары май · Астана</title>
+<meta name="description" content="Ауылдан келген құрт, қазы, сары май, ірімшік. Астана бойынша жеткізу, 2 кг-нан бастап тегін.">
+<meta name="theme-color" content="#1e3f94">
+<link rel="stylesheet" href="fonts.css">
+<style>
+:root{
+  --kese:#1e3f94; --kese-d:#132c6c; --kese-l:#e7ecf8;
+  --butter:#f3c53a; --butter-d:#d9a514;
+  --smoke:#3e2414; --milk:#f6f7f4; --paper:#ffffff;
+  --ink:#121a33; --muted:#66708a; --line:#dfe3ec;
+  --ok:#14a35a; --err:#d43c2c; --wa:#25d366;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --disp:'Unbounded',system-ui,sans-serif; --txt:'Golos Text',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:var(--txt);background:var(--milk);color:var(--ink);line-height:1.5;overflow-x:hidden;font-size:16px}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:3px solid var(--butter);outline-offset:2px;border-radius:8px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}}
+.wrap{max-width:1200px;margin:auto;padding:0 20px}
+
+/* ===== header ===== */
+.top{position:sticky;top:0;z-index:30;background:var(--kese);color:#fff;transition:box-shadow .3s}
+.top.scrolled{box-shadow:0 8px 24px -12px rgba(19,44,108,.6)}
+.top .wrap{display:flex;align-items:center;gap:28px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:800;font-size:18px;color:#fff;text-decoration:none}
+.logo svg{width:34px;height:34px}
+.nav{display:flex;gap:22px;font-weight:500;font-size:15px}
+.nav a{color:#c9d4f2;text-decoration:none;transition:color .2s}.nav a:hover{color:#fff}
+.cartbtn{margin-left:auto;position:relative;display:flex;align-items:center;gap:10px;background:var(--butter);color:var(--ink);height:44px;padding:0 18px;border-radius:12px;font-weight:700;font-size:15px;transition:transform .25s var(--ease)}
+.cartbtn:active{transform:scale(.95)}
+.cartbtn .badge{position:absolute;top:-8px;right:-8px;min-width:24px;height:24px;padding:0 6px;border-radius:12px;background:var(--ink);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;border:2px solid var(--kese);transform:scale(0);transition:transform .35s var(--ease)}
+.cartbtn .badge.on{transform:scale(1)}
+.cartbtn.bump{animation:bump .5s var(--ease)}
+@keyframes bump{30%{transform:scale(1.1)}60%{transform:scale(.97)}}
+@media(max-width:820px){.nav{display:none}.top .wrap{height:60px}}
+
+/* ===== hero ===== */
+.hero{background:var(--kese);color:#fff;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80' fill='none' stroke='white' stroke-width='3'%3E%3Cpath d='M40 40c0-12 10-18 16-12s0 14-6 12M40 40c0-12-10-18-16-12s0 14 6 12M40 40c0 12 10 18 16 12s0-14-6-12M40 40c0 12-10 18-16 12s0-14 6-12'/%3E%3C/svg%3E")}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:30px;padding-top:56px;padding-bottom:84px}
+.hero h1{font-family:var(--disp);font-weight:800;font-size:clamp(34px,5.2vw,64px);line-height:1.04;letter-spacing:-1.5px}
+.hero p{margin-top:20px;font-size:18px;color:#d3dcf5;max-width:470px}
+.hero .acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:56px;padding:0 26px;border-radius:14px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .2s,background .3s,box-shadow .3s}
+.btn:active{transform:scale(.97)}
+.btn-y{background:var(--butter);color:var(--ink);box-shadow:0 10px 24px -10px rgba(243,197,58,.8)}
+.btn-y:hover{background:#ffd451}
+.btn-o{border:2px solid rgba(255,255,255,.35);color:#fff}
+.btn-o:hover{border-color:#fff}
+.facts{display:flex;gap:28px;margin-top:40px;flex-wrap:wrap}
+.facts div{font-size:14px;color:#c9d4f2}
+.facts b{display:block;font-family:var(--disp);font-weight:600;font-size:22px;color:#fff;letter-spacing:-.5px}
+
+/* kese bowl — the signature */
+.kese{position:relative;width:min(470px,90vw);aspect-ratio:1;justify-self:center}
+.kese .ring{position:absolute;inset:0;animation:spin 60s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.kese .bowl{position:absolute;inset:11%;border-radius:50%;background:radial-gradient(circle at 50% 45%,#fff 0 56%,#eef2fb 57% 62%,var(--kese-d) 63% 65%,#fff 66% 100%);box-shadow:0 40px 60px -20px rgba(0,0,0,.55),inset 0 -14px 30px rgba(19,44,108,.25)}
+.kese .bowl::after{content:"";position:absolute;inset:4%;border-radius:50%;border:3px dashed rgba(30,63,148,.35)}
+.kese .fill{position:absolute;inset:25%;display:grid;place-items:center}
+.kese .fill span{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#efe5cf 70%,#d7c39c);box-shadow:0 4px 8px rgba(80,60,20,.25)}
+.price-pin{position:absolute;right:2%;bottom:12%;background:var(--butter);color:var(--ink);border-radius:16px;padding:12px 16px;font-weight:600;font-size:13px;transform:rotate(-6deg);box-shadow:0 14px 28px -10px rgba(0,0,0,.5)}
+.price-pin b{display:block;font-family:var(--disp);font-size:22px;font-weight:800}
+@media(max-width:820px){
+  .hero .wrap{grid-template-columns:1fr;padding-top:30px;padding-bottom:56px;gap:10px}
+  .kese{width:min(330px,82vw);order:-1;margin:0 auto}
+  .hero p{font-size:16px}
+  .facts{gap:20px}.facts b{font-size:19px}
+}
+.wave{display:block;width:100%;height:28px;margin-top:-27px;position:relative}
+
+/* ===== sections ===== */
+.sec{padding:64px 0}
+.sec-h{display:flex;align-items:flex-end;gap:20px;justify-content:space-between;flex-wrap:wrap;margin-bottom:26px}
+.sec-h h2{font-family:var(--disp);font-weight:800;font-size:clamp(26px,3.4vw,40px);letter-spacing:-1px;line-height:1.1}
+.sec-h p{color:var(--muted);max-width:420px}
+.cats{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:none;height:42px;padding:0 18px;border-radius:21px;background:var(--paper);border:1.5px solid var(--line);font-weight:600;font-size:14px;transition:all .3s var(--ease)}
+.cat.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* product cards */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid{grid-template-columns:1fr;gap:16px}}
+.card{background:var(--paper);border-radius:24px;overflow:hidden;display:grid;grid-template-rows:auto 1fr;border:1px solid var(--line);transition:box-shadow .4s var(--ease),transform .4s var(--ease)}
+.card:hover{box-shadow:0 24px 44px -24px rgba(19,44,108,.35)}
+.card.hide{display:none}
+.ph{position:relative;aspect-ratio:16/11;overflow:hidden}
+.ph img,.ph svg{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.card:hover .ph svg,.card:hover .ph img{transform:scale(1.05)}
+.tag{position:absolute;left:14px;top:14px;background:var(--butter);color:var(--ink);padding:6px 12px;border-radius:10px;font-size:12px;font-weight:700}
+.incart{position:absolute;right:14px;top:14px;background:var(--ok);color:#fff;padding:6px 12px;border-radius:10px;font-size:12px;font-weight:700;transform:translateY(-150%);opacity:0;transition:all .4s var(--ease)}
+.incart.on{transform:none;opacity:1}
+.body{padding:20px;display:flex;flex-direction:column;gap:14px}
+.ttl{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.name{font-family:var(--disp);font-weight:600;font-size:18px;line-height:1.2;letter-spacing:-.3px}
+.desc{font-size:14px;color:var(--muted);margin-top:4px}
+.price{font-family:var(--disp);font-weight:800;font-size:20px;white-space:nowrap;letter-spacing:-.5px}
+.price small{display:block;text-align:right;font-family:var(--txt);font-weight:500;font-size:12px;color:var(--muted);letter-spacing:0}
+.picks{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.picks button{height:38px;border-radius:10px;background:var(--kese-l);color:var(--kese);font-weight:700;font-size:14px;transition:all .25s var(--ease)}
+.picks button.on{background:var(--kese);color:#fff}
+.qrow{display:flex;gap:10px}
+.qty{display:flex;align-items:center;background:var(--milk);border:1.5px solid var(--line);border-radius:14px;padding:4px}
+.qty button{width:40px;height:40px;border-radius:10px;background:var(--paper);font-size:22px;font-weight:500;display:grid;place-items:center;box-shadow:0 1px 2px rgba(0,0,0,.08);transition:transform .15s}
+.qty button:active{transform:scale(.86)}
+.qty b{min-width:66px;text-align:center;font-weight:700;font-size:15px}
+.add{flex:1;height:52px;border-radius:14px;background:var(--ink);color:#fff;font-weight:700;font-size:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;transition:background .3s,transform .2s}
+.add small{font-weight:500;font-size:12px;color:#aab3cc}
+.add:hover{background:var(--kese)}
+.add:active{transform:scale(.97)}
+.add.done{background:var(--ok)}
+.add.done small{color:#d6f5e3}
+
+/* delivery band */
+.band{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.steps3 li{list-style:none;padding:34px 28px;border-left:1px solid var(--line);position:relative}
+.steps3 li:first-child{border-left:0;padding-left:0}
+.steps3 .n{font-family:var(--disp);font-weight:800;font-size:44px;color:var(--kese);line-height:1}
+.steps3 h3{font-family:var(--disp);font-weight:600;font-size:18px;margin:12px 0 6px}
+.steps3 p{color:var(--muted);font-size:15px}
+@media(max-width:820px){.steps3{grid-template-columns:1fr}.steps3 li{border-left:0;border-top:1px solid var(--line);padding:24px 0}.steps3 li:first-child{border-top:0}}
+
+.deliv{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.dcard{border-radius:24px;padding:30px;background:var(--paper);border:1px solid var(--line)}
+.dcard.y{background:var(--butter);border-color:var(--butter)}
+.dcard .big{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4vw,46px);letter-spacing:-1.5px;line-height:1}
+.dcard p{margin-top:12px;font-size:16px;color:#3a3f52}
+@media(max-width:700px){.deliv{grid-template-columns:1fr}}
+
+footer{background:var(--kese-d);color:#c9d4f2;padding:44px 0 130px}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+footer a{color:#fff;font-weight:700;text-decoration:none;font-size:18px}
+
+/* ===== mobile bottom bar ===== */
+.bar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:25;background:var(--ink);color:#fff;border-radius:18px;padding:10px 10px 10px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 18px 40px -12px rgba(18,26,51,.6);transform:translateY(150%);transition:transform .5s var(--ease);max-width:560px;margin:auto}
+.bar.on{transform:none}
+@media(min-width:821px){.bar{display:none}}
+.bar .t{font-size:12px;color:#aab3cc}.bar .s{font-family:var(--disp);font-weight:800;font-size:18px}
+.bar button{margin-left:auto;background:var(--butter);color:var(--ink);font-weight:700;height:48px;padding:0 20px;border-radius:13px}
+
+/* ===== drawer ===== */
+.ov{position:fixed;inset:0;background:rgba(18,26,51,.5);backdrop-filter:blur(3px);z-index:40;opacity:0;pointer-events:none;transition:opacity .4s}
+.ov.on{opacity:1;pointer-events:auto}
+.dr{position:fixed;z-index:50;top:0;right:0;height:100%;width:min(480px,100%);background:var(--milk);display:flex;flex-direction:column;transform:translateX(105%);transition:transform .55s var(--ease)}
+.dr.on{transform:none}
+@media(max-width:600px){.dr{top:auto;bottom:0;height:94dvh;border-radius:24px 24px 0 0;transform:translateY(105%)}}
+.dh{background:var(--kese);color:#fff;padding:18px 20px 16px}
+@media(max-width:600px){.dh{border-radius:24px 24px 0 0}}
+.dh .r{display:flex;align-items:center;gap:10px}
+.dh h2{font-family:var(--disp);font-weight:800;font-size:22px;letter-spacing:-.5px}
+.ib{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.14);color:#fff;font-size:20px;display:grid;place-items:center;flex:none}
+.dh .x{margin-left:auto}
+.dh .back{display:none}
+.dr.s2 .back,.dr.s3 .back{display:grid}
+.track{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:16px}
+.track div{font-size:12px;font-weight:600;color:#9fb1e3}
+.track div i{display:block;height:4px;border-radius:2px;background:rgba(255,255,255,.2);margin-bottom:6px;overflow:hidden;position:relative}
+.track div i::after{content:"";position:absolute;inset:0;background:var(--butter);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.track div.on{color:#fff}.track div.on i::after{transform:scaleX(1)}
+
+.panes{position:relative;flex:1;overflow:hidden}
+.pane{position:absolute;inset:0;overflow-y:auto;padding:18px 20px 22px;transition:transform .5s var(--ease),opacity .35s}
+.p2,.p3{transform:translateX(100%);opacity:0;pointer-events:none}
+.dr.s2 .p1,.dr.s3 .p1,.dr.s3 .p2{transform:translateX(-25%);opacity:0;pointer-events:none}
+.dr.s2 .p2,.dr.s3 .p3{transform:none;opacity:1;pointer-events:auto}
+
+.prog{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:14px;display:flex;gap:14px;align-items:center}
+.prog svg{flex:none}
+.prog p{font-size:14px;font-weight:600;line-height:1.35}
+.prog p small{display:block;font-weight:500;color:var(--muted)}
+.line{display:grid;grid-template-columns:68px 1fr auto;gap:14px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:10px;margin-bottom:10px;animation:in .45s var(--ease) both}
+@keyframes in{from{opacity:0;transform:translateY(12px)}}
+.line .th{width:68px;height:68px;border-radius:13px;overflow:hidden}
+.line .th svg{width:100%;height:100%}
+.line .n{font-weight:700;font-size:15px}
+.line .p{font-size:13px;color:var(--muted)}
+.line .qty{padding:3px;margin-top:6px;width:max-content;border-radius:11px}
+.line .qty button{width:30px;height:30px;font-size:17px;border-radius:8px}
+.line .qty b{min-width:54px;font-size:13px}
+.line .sum{text-align:right;font-weight:700;font-size:15px;align-self:stretch;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;padding:2px 4px}
+.line .rm{width:30px;height:30px;border-radius:9px;color:var(--muted);display:grid;place-items:center}
+.line .rm:hover{background:#fbe9e7;color:var(--err)}
+.empty{text-align:center;padding:50px 10px;color:var(--muted)}
+.empty h3{font-family:var(--disp);color:var(--ink);font-size:18px;margin:14px 0 6px}
+.empty .btn{margin-top:18px;height:48px}
+
+.fs{border:0;margin-bottom:18px}
+.fs legend{font-family:var(--disp);font-weight:600;font-size:15px;margin-bottom:12px}
+.g{display:grid;gap:10px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}.g21{grid-template-columns:2fr 1fr}
+.fl{position:relative;display:block}
+.fl input,.fl textarea{width:100%;height:56px;border-radius:14px;border:1.5px solid var(--line);background:var(--paper);padding:22px 14px 6px;font-size:15px;outline:none;transition:border-color .25s,box-shadow .25s}
+.fl textarea{height:84px;resize:none;padding-top:26px}
+.fl span{position:absolute;left:15px;top:17px;font-size:15px;color:var(--muted);pointer-events:none;transition:all .2s var(--ease)}
+.fl input:focus+span,.fl input:not(:placeholder-shown)+span,.fl textarea:focus+span,.fl textarea:not(:placeholder-shown)+span{top:7px;font-size:11.5px;font-weight:600;color:var(--kese)}
+.fl input:focus,.fl textarea:focus{border-color:var(--kese);box-shadow:0 0 0 4px rgba(30,63,148,.12)}
+.fl.err input{border-color:var(--err);animation:shake .4s}
+.fl.err span{color:var(--err)!important}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.hide-f{display:none!important}
+.toggle{display:grid;grid-template-columns:1fr 1fr;background:var(--kese-l);border-radius:14px;padding:4px;margin-bottom:10px;position:relative}
+.toggle button{height:42px;border-radius:11px;font-weight:600;font-size:14px;color:var(--kese);position:relative;z-index:1;transition:color .3s}
+.toggle button.on{color:#fff}
+.toggle .pill{position:absolute;top:4px;left:4px;width:calc(50% - 4px);height:42px;border-radius:11px;background:var(--kese);transition:transform .4s var(--ease)}
+.toggle.r .pill{transform:translateX(100%)}
+.seg{display:grid;gap:8px}
+.seg.c3{grid-template-columns:repeat(3,1fr)}
+.seg.c2{grid-template-columns:repeat(2,1fr)}
+.seg button{min-height:52px;border-radius:13px;border:1.5px solid var(--line);background:var(--paper);font-weight:600;font-size:14px;line-height:1.2;transition:all .25s var(--ease)}
+.seg button small{display:block;font-weight:500;font-size:12px;color:var(--muted)}
+.seg button.on{background:var(--kese);border-color:var(--kese);color:#fff}
+.seg button.on small{color:#c9d4f2}
+.seg button:disabled{opacity:.35}
+.seg.err button{border-color:var(--err)}
+
+.sum-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+.sum-card h4{font-family:var(--disp);font-weight:600;font-size:14px;margin-bottom:10px;display:flex;justify-content:space-between}
+.sum-card h4 button{font-family:var(--txt);font-size:13px;color:var(--kese);font-weight:600}
+.sum-card .li{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:4px 0}
+.sum-card .li span:first-child{color:var(--muted)}
+.sum-card .li span:last-child{text-align:right;font-weight:600}
+.wa-note{display:flex;gap:10px;font-size:13px;color:var(--muted);align-items:flex-start;padding:4px 2px}
+
+.df{padding:14px 20px calc(16px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--paper)}
+.row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:4px;color:var(--muted)}
+.row b{color:var(--ink);font-weight:600}
+.row.tot{font-size:15px;color:var(--ink);font-weight:700;margin:8px 0 12px;align-items:baseline}
+.row.tot span:last-child{font-family:var(--disp);font-weight:800;font-size:24px;letter-spacing:-.5px}
+.free{color:var(--ok)!important}
+.cta{width:100%;height:56px;border-radius:16px;background:var(--ink);color:#fff;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .2s,opacity .3s,background .3s}
+.cta:active{transform:scale(.98)}
+.cta:disabled{opacity:.35}
+.cta.wa{background:var(--wa);color:#05331a}
+
+.fly{position:fixed;z-index:60;width:64px;height:64px;border-radius:50%;overflow:hidden;pointer-events:none;box-shadow:0 10px 24px rgba(0,0,0,.3);border:3px solid #fff;transition:transform .75s cubic-bezier(.5,-0.3,.6,1),opacity .75s}
+.fly svg{width:100%;height:100%}
+
+/* ===== Kaspi payment ===== */
+.p4{transform:translateX(100%);opacity:0;pointer-events:none}
+.dr.s4 .p1,.dr.s4 .p2,.dr.s4 .p3{transform:translateX(-25%);opacity:0;pointer-events:none}
+.dr.s4 .p4{transform:none;opacity:1;pointer-events:auto}
+.dr.s4 .df,.dr.s4 .track,.dr.s4 .back{display:none!important}
+.dr.s4 .dh{background:#f14635}
+.paid-ok{display:flex;gap:12px;align-items:center;background:#e8f7ef;color:#0d6b3b;border-radius:16px;padding:12px 14px;font-weight:600;font-size:14px;margin-bottom:14px}
+.paid-ok i{width:28px;height:28px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-style:normal;flex:none}
+.kcard{border-radius:22px;background:linear-gradient(150deg,#f14635,#c8281a);color:#fff;padding:22px 20px;position:relative;overflow:hidden;box-shadow:0 20px 40px -18px rgba(200,40,26,.7)}
+.kcard::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.08)}
+.kcard .lb{font-size:13px;color:#ffd9d4}
+.kcard .amt{font-family:var(--disp);font-weight:800;font-size:40px;letter-spacing:-1.5px;margin:2px 0 16px}
+.kfield{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.14);border-radius:14px;padding:10px 10px 10px 14px;margin-top:8px}
+.kfield div{flex:1;min-width:0}
+.kfield small{display:block;font-size:12px;color:#ffd9d4}
+.kfield b{font-size:17px;font-weight:700;letter-spacing:.2px}
+.copy{height:38px;padding:0 14px;border-radius:10px;background:#fff;color:#c8281a;font-weight:700;font-size:13px;flex:none;transition:all .25s var(--ease)}
+.copy.ok{background:var(--ok);color:#fff}
+.kopen{display:flex;align-items:center;justify-content:center;gap:10px;height:56px;border-radius:16px;background:#f14635;color:#fff;font-weight:700;font-size:16px;text-decoration:none;margin:14px 0 18px;transition:transform .2s}
+.kopen:active{transform:scale(.98)}
+.ksteps{list-style:none;counter-reset:k;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:6px 16px}
+.ksteps li{counter-increment:k;display:flex;gap:12px;padding:12px 0;font-size:14px;border-top:1px solid var(--line)}
+.ksteps li:first-child{border-top:0}
+.ksteps li::before{content:counter(k);width:26px;height:26px;border-radius:50%;background:#fde4e1;color:#c8281a;font-weight:700;font-size:13px;display:grid;place-items:center;flex:none}
+.kbtns{display:grid;gap:10px;margin-top:16px}
+.kbtns .cta{height:52px;text-decoration:none}
+.kbtns .ghost{background:var(--paper);color:var(--ink);border:1.5px solid var(--line)}
+.toast{position:fixed;left:50%;top:16px;z-index:70;transform:translate(-50%,-250%);background:var(--ink);color:#fff;padding:13px 18px;border-radius:14px;font-weight:600;font-size:14px;transition:transform .5s var(--ease);white-space:nowrap;display:flex;gap:10px;align-items:center;box-shadow:0 14px 30px -10px rgba(0,0,0,.4)}
+.toast.on{transform:translate(-50%,0)}
+.toast i{width:22px;height:22px;border-radius:50%;background:var(--ok);display:grid;place-items:center;font-style:normal;font-size:13px}
+</style>
+</head>
+<body>
+
+<header class="top" id="top"><div class="wrap">
+  <a class="logo" href="#"><svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="11" fill="#f3c53a"/><path d="M20 21c0-6 5-9 8-6s0 7-3 6M20 21c0-6-5-9-8-6s0 7 3 6M20 21v9" stroke="#1e3f94" stroke-width="2.6" stroke-linecap="round"/></svg>Ауыл дәмі</a>
+  <nav class="nav"><a href="#shop">Өнімдер</a><a href="#how">Қалай тапсырыс беру</a><a href="#delivery">Жеткізу</a></nav>
+  <button class="cartbtn" id="cartBtn" aria-label="Себетті ашу">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.5L21 8H6.2"/><circle cx="10" cy="20.5" r="1.3"/><circle cx="18" cy="20.5" r="1.3"/></svg>
+    <span id="cartBtnSum">Себет</span><span class="badge" id="badge">0</span>
+  </button>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div>
+    <h1>Ауылдың құрты, қазысы мен майы есігіңізге дейін</h1>
+    <p>Керек салмақты таңдаңыз, себетке салыңыз. Тапсырысыңыз WhatsApp арқылы бізге бірден жетеді, ал біз өзіңіз таңдаған уақытта әкелеміз.</p>
+    <div class="acts">
+      <a class="btn btn-y" href="#shop">Өнімдерді көру</a>
+      <a class="btn btn-o" href="https://wa.me/77477339573" target="_blank" rel="noopener">WhatsApp-қа жазу</a>
+    </div>
+    <div class="facts">
+      <div><b>2 кг-нан</b>жеткізу тегін</div>
+      <div><b>4 уақыт</b>аралығы күн сайын</div>
+      <div><b>6 өнім</b>ауылдан тікелей</div>
+    </div>
+  </div>
+  <div class="kese" aria-hidden="true">
+    <svg class="ring" viewBox="0 0 200 200"><g fill="none" stroke="#f3c53a" stroke-width="1.6" opacity=".9" id="orn"></g></svg>
+    <div class="bowl"></div>
+    <div class="fill" id="kurtFill"></div>
+    <div class="price-pin">Құрт, 1 кг<b>5 500 ₸</b></div>
+  </div>
+</div></section>
+<svg class="wave" viewBox="0 0 1200 28" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0h1200v8c-100 0-100 18-200 18S900 8 800 8 700 26 600 26 500 8 400 8 300 26 200 26 100 8 0 8z" fill="#1e3f94"/></svg>
+
+<section class="sec" id="shop"><div class="wrap">
+  <div class="sec-h">
+    <h2>Өнімдер</h2>
+    <nav class="cats" id="cats">
+      <button class="cat on" data-c="all">Барлығы</button>
+      <button class="cat" data-c="kurt">Құрт</button>
+      <button class="cat" data-c="may">Май</button>
+      <button class="cat" data-c="et">Ет өнімдері</button>
+      <button class="cat" data-c="sut">Сүт өнімдері</button>
+    </nav>
+  </div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section class="band" id="how"><div class="wrap">
+  <ol class="steps3">
+    <li><div class="n">1</div><h3>Салмағын таңдаңыз</h3><p>0,5 кг-нан бастап кез келген мөлшер. Әр өнімнің бағасы бірден есептеледі.</p></li>
+    <li><div class="n">2</div><h3>Мекенжайды толтырыңыз</h3><p>Көше, үй, пәтер, қабат — курьер адаспай тауып келуі үшін бәрін бөлек жазасыз.</p></li>
+    <li><div class="n">3</div><h3>WhatsApp-қа жіберіңіз</h3><p>Тапсырыс дайын хабарлама болып ашылады. Жіберу батырмасын бассаңыз болды.</p></li>
+  </ol>
+</div></section>
+
+<section class="sec" id="delivery"><div class="wrap">
+  <div class="sec-h"><h2>Жеткізу Астана бойынша</h2></div>
+  <div class="deliv">
+    <div class="dcard y"><div class="big">Тегін</div><p>Жалпы салмағы 2 кг және одан көп тапсырыс. Өнімдерді аралас алуға болады: 1 кг құрт + 1 кг қазы да кіреді.</p></div>
+    <div class="dcard"><div class="big">1 000 ₸</div><p>2 кг-нан аз тапсырыс. Уақытты өзіңіз таңдайсыз: 10:00–13:00, 13:00–16:00, 16:00–19:00 немесе 19:00–22:00.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><div>Ауыл дәмі · Астана<br>Тапсырыстар күн сайын қабылданады</div><a href="https://wa.me/77477339573" target="_blank" rel="noopener">+7 747 733 95 73</a></div></footer>
+
+<div class="bar" id="bar"><div><div class="t" id="barT"></div><div class="s" id="barS"></div></div><button id="barBtn">Себетті ашу</button></div>
+
+<div class="ov" id="ov"></div>
+<aside class="dr" id="dr" aria-label="Себет" aria-hidden="true">
+  <div class="dh">
+    <div class="r"><button class="ib back" id="back" aria-label="Артқа">←</button><h2 id="dTitle">Себет</h2><button class="ib x" id="close" aria-label="Жабу">×</button></div>
+    <div class="track" id="track"><div class="on"><i></i>Себет</div><div><i></i>Мекенжай</div><div><i></i>Тексеру</div></div>
+  </div>
+  <div class="panes">
+    <div class="pane p1" id="p1"></div>
+    <div class="pane p2">
+      <fieldset class="fs"><legend>Байланыс</legend>
+        <div class="g g2">
+          <label class="fl"><input id="fName" placeholder=" " autocomplete="given-name"><span>Атыңыз</span></label>
+          <label class="fl" id="wPhone"><input id="fPhone" type="tel" inputmode="tel" placeholder=" " autocomplete="tel"><span>WhatsApp нөмірі *</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="fs"><legend>Мекенжай, Астана</legend>
+        <div class="toggle" id="hType"><span class="pill"></span><button type="button" class="on" data-h="flat">Пәтер</button><button type="button" data-h="house">Жеке үй</button></div>
+        <div class="g">
+          <label class="fl" id="wStreet"><input id="fStreet" placeholder=" " autocomplete="address-line1"><span>Көше / даңғыл / ЖК *</span></label>
+          <div class="g g2">
+            <label class="fl" id="wHouse"><input id="fHouse" placeholder=" "><span>Үй нөмірі *</span></label>
+            <label class="fl flat" id="wFlat"><input id="fFlat" placeholder=" " inputmode="numeric"><span>Пәтер (кв) *</span></label>
+          </div>
+          <div class="g g3 flat">
+            <label class="fl"><input id="fEntr" placeholder=" " inputmode="numeric"><span>Подъезд</span></label>
+            <label class="fl"><input id="fFloor" placeholder=" " inputmode="numeric"><span>Қабат</span></label>
+            <label class="fl"><input id="fCode" placeholder=" "><span>Домофон</span></label>
+          </div>
+          <label class="fl"><textarea id="fNote" placeholder=" "></textarea><span>Курьерге ескертпе (міндетті емес)</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="fs"><legend>Жеткізу күні</legend><div class="seg c3" id="dSeg"></div></fieldset>
+      <fieldset class="fs"><legend>Уақыт аралығы</legend><div class="seg c2" id="tSeg"></div></fieldset>
+    </div>
+    <div class="pane p3" id="p3"></div>
+    <div class="pane p4" id="p4"></div>
+  </div>
+  <div class="df">
+    <div class="row"><span>Тауарлар · <span id="kgT">0</span></span><b id="subT">0 ₸</b></div>
+    <div class="row"><span>Жеткізу</span><b id="delT">—</b></div>
+    <div class="row tot"><span>Барлығы</span><span id="totT">0 ₸</span></div>
+    <button class="cta" id="cta">Мекенжайға өту</button>
+  </div>
+</aside>
+<div class="toast" id="toast"><i>✓</i><span></span></div>
+
+<script src="art.js"></script>
+<script>
+const WA='77477339573', FREE_KG=2, DELIVERY=1000, STEP=0.5;
+const P=[
+ {id:'syqpa',   n:'Сықпа құрт',           d:'Қолмен сығылған, ащы-тұзды дәмі бар',  pr:5500,  c:'kurt', t:'Көп алынады'},
+ {id:'dongelek',n:'Дөңгелек құрт',        d:'Домалақ, жұмсақтау, балаларға ұнайды', pr:5500,  c:'kurt'},
+ {id:'may',     n:'Сары май, кесе майы',  d:'Ауылдың үй майы, кеседе қатырылған',   pr:5500,  c:'may sut'},
+ {id:'kuyryk',  n:'Ысталған құйрық май',  d:'Ағаш түтінімен ысталған',              pr:10000, c:'may et'},
+ {id:'irimshik',n:'Ірімшік',              d:'Қоңыр, тәттілеу, шайға таптырмас',     pr:3500,  c:'sut'},
+ {id:'kazy',    n:'Қазы',                 d:'Жылқы етінен, дәстүрлі әдіспен',       pr:5500,  c:'et', t:'Көп алынады'},
+];
+const $=s=>document.querySelector(s);
+const fmt=n=>Math.round(n).toLocaleString('ru-RU').replace(/\s/g,' ')+' ₸';
+const kg=n=>(Math.round(n*10)/10).toString().replace('.',',')+' кг';
+const pic=p=>`<img src="img/${p.id}.jpg" alt="${p.n}" loading="lazy" onerror="this.outerHTML=ART['${p.id}']">`;
+const byId=id=>P.find(x=>x.id==id);
+
+let cart={}; try{cart=JSON.parse(localStorage.getItem('cart')||'{}')}catch(e){}
+for(const k in cart) if(!byId(k)) delete cart[k];
+const save=()=>{try{localStorage.setItem('cart',JSON.stringify(cart))}catch(e){}};
+const sel={}; P.forEach(p=>sel[p.id]=1);
+
+/* hero: ornament ring + kurt pile */
+(()=>{let g='';for(let i=0;i<12;i++){g+=`<g transform="rotate(${i*30} 100 100)"><path d="M100 6c6 0 9 6 5 9s-8 0-6-4M100 6c-6 0-9 6-5 9s8 0 6-4"/><circle cx="100" cy="20" r="1.6" fill="#f3c53a"/></g>`}
+ $('#orn').innerHTML=g+'<circle cx="100" cy="100" r="97" stroke-dasharray="2 5"/>';
+ const pts=[[50,50,26],[30,40,22],[70,38,22],[36,66,22],[64,66,22],[50,26,20],[22,58,18],[78,58,18],[50,76,20],[44,46,18],[58,52,18]];
+ $('#kurtFill').innerHTML=pts.map(([x,y,s])=>`<span style="left:calc(${x}% - ${s/2}%);top:calc(${y}% - ${s/2}%);width:${s}%;height:${s}%"></span>`).join('');})();
+
+/* products */
+const PICKS=[0.5,1,2,3];
+$('#grid').innerHTML=P.map(p=>`
+<article class="card" data-c="${p.c}" id="c-${p.id}">
+  <div class="ph">${pic(p)}${p.t?`<span class="tag">${p.t}</span>`:''}<span class="incart" id="ic-${p.id}"></span></div>
+  <div class="body">
+    <div class="ttl"><div><h3 class="name">${p.n}</h3><p class="desc">${p.d}</p></div><div class="price">${fmt(p.pr)}<small>1 кг үшін</small></div></div>
+    <div class="picks" id="pk-${p.id}">${PICKS.map(v=>`<button data-k="${p.id}" data-v="${v}" class="${v==1?'on':''}">${kg(v)}</button>`).join('')}</div>
+    <div class="qrow">
+      <div class="qty"><button data-m="${p.id}" aria-label="Азайту">−</button><b id="q-${p.id}">1 кг</b><button data-p="${p.id}" aria-label="Көбейту">+</button></div>
+      <button class="add" data-a="${p.id}"><span>Себетке салу</span><small id="s-${p.id}">${fmt(p.pr)}</small></button>
+    </div>
+  </div>
+</article>`).join('');
+
+function showSel(id){
+  $('#q-'+id).textContent=kg(sel[id]); $('#s-'+id).textContent=fmt(sel[id]*byId(id).pr);
+  document.querySelectorAll(`#pk-${id} button`).forEach(b=>b.classList.toggle('on',+b.dataset.v==sel[id]));
+}
+$('#grid').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return; const d=b.dataset;
+  if(d.k){sel[d.k]=+d.v;showSel(d.k)}
+  if(d.p){sel[d.p]=Math.min(50,sel[d.p]+STEP);showSel(d.p)}
+  if(d.m){sel[d.m]=Math.max(STEP,sel[d.m]-STEP);showSel(d.m)}
+  if(d.a){
+    const id=d.a; cart[id]=(cart[id]||0)+sel[id]; save(); fly(b.closest('.card').querySelector('.ph'),id);
+    b.classList.add('done'); b.firstElementChild.textContent='Себетке салынды ✓';
+    setTimeout(()=>{b.classList.remove('done');b.firstElementChild.textContent='Себетке салу'},1400);
+    toast(`${byId(id).n}: ${kg(sel[id])} себетке салынды`); setTimeout(update,650);
+  }
+});
+$('#cats').addEventListener('click',e=>{
+  const b=e.target.closest('.cat'); if(!b)return;
+  document.querySelectorAll('.cat').forEach(x=>x.classList.toggle('on',x==b));
+  document.querySelectorAll('.card').forEach(c=>c.classList.toggle('hide',!(b.dataset.c=='all'||c.dataset.c.split(' ').includes(b.dataset.c))));
+});
+
+function fly(from,id){
+  const r=from.getBoundingClientRect(),t=$('#cartBtn').getBoundingClientRect();
+  const f=document.createElement('div');f.className='fly';f.innerHTML=ART[id];
+  f.style.left=(r.left+r.width/2-32)+'px';f.style.top=(r.top+r.height/2-32)+'px';document.body.appendChild(f);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{f.style.transform=`translate(${t.left+t.width/2-r.left-r.width/2}px,${t.top+t.height/2-r.top-r.height/2}px) scale(.3)`;f.style.opacity='.5'}));
+  setTimeout(()=>{f.remove();const c=$('#cartBtn');c.classList.remove('bump');void c.offsetWidth;c.classList.add('bump')},760);
+}
+let tt;function toast(m){const t=$('#toast');t.querySelector('span').textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2000)}
+
+function totals(){let w=0,s=0;for(const id in cart){w+=cart[id];s+=cart[id]*byId(id).pr}const d=w===0?0:(w>=FREE_KG?0:DELIVERY);return{w,s,d,t:s+d}}
+function update(){
+  const {w,s,d,t}=totals(),ids=Object.keys(cart),n=ids.length;
+  $('#badge').textContent=n;$('#badge').classList.toggle('on',n>0);
+  $('#cartBtnSum').textContent=n?fmt(t):'Себет';
+  $('#bar').classList.toggle('on',n>0&&!dr.classList.contains('on'));
+  $('#barT').textContent=`${n} өнім · ${kg(w)}`;$('#barS').textContent=fmt(t);
+  $('#kgT').textContent=kg(w);$('#subT').textContent=fmt(s);
+  $('#delT').innerHTML=w===0?'—':d===0?'<span class="free">Тегін</span>':fmt(d);
+  $('#totT').textContent=fmt(t);
+  P.forEach(p=>{const el=$('#ic-'+p.id);el.classList.toggle('on',!!cart[p.id]);if(cart[p.id])el.textContent='Себетте: '+kg(cart[p.id])});
+  const left=FREE_KG-w, pct=Math.min(1,w/FREE_KG), C=2*Math.PI*18;
+  $('#p1').innerHTML=n===0?`<div class="empty"><svg width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="#e7ecf8"/><path d="M22 36h40l-4 22a6 6 0 0 1-6 5H32a6 6 0 0 1-6-5z" fill="#fff" stroke="#1e3f94" stroke-width="2.5"/><path d="M32 36l6-12M52 36l-6-12" stroke="#1e3f94" stroke-width="2.5" stroke-linecap="round"/></svg><h3>Себет әзірге бос</h3><p>Өнімді таңдап, салмағын белгілеңіз.</p><button class="btn btn-y" onclick="closeCart()">Өнімдерге оралу</button></div>`:
+   `<div class="prog"><svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="23" r="18" fill="none" stroke="#e7ecf8" stroke-width="5"/><circle cx="23" cy="23" r="18" fill="none" stroke="${left>0?'#f3c53a':'#14a35a'}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}" transform="rotate(-90 23 23)" style="transition:stroke-dashoffset .6s"/></svg><p>${left>0?`Тегін жеткізуге тағы ${kg(left)} қалды<small>Қазір жеткізу ${fmt(DELIVERY)}</small>`:`Жеткізу тегін<small>Себетте ${kg(w)}, бұл 2 кг-нан көп</small>`}</p></div>`+
+   ids.map(id=>{const p=byId(id);return`<div class="line"><div class="th">${ART[id]}</div><div><div class="n">${p.n}</div><div class="p">${fmt(p.pr)} / кг</div><div class="qty"><button data-cm="${id}" aria-label="Азайту">−</button><b>${kg(cart[id])}</b><button data-cp="${id}" aria-label="Көбейту">+</button></div></div><div class="sum">${fmt(cart[id]*p.pr)}<button class="rm" data-rm="${id}" aria-label="Өшіру"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button></div></div>`}).join('');
+  $('#cta').disabled=n===0;
+  if(n===0&&step>1&&step<4)setStep(1);
+}
+$('#p1').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(d.cp)cart[d.cp]+=STEP;
+  if(d.cm){cart[d.cm]-=STEP;if(cart[d.cm]<STEP)delete cart[d.cm]}
+  if(d.rm)delete cart[d.rm];
+  save();update();
+});
+
+/* drawer + steps */
+const dr=$('#dr'),ov=$('#ov');let step=1;
+function openCart(){dr.classList.add('on');dr.setAttribute('aria-hidden','false');ov.classList.add('on');$('#bar').classList.remove('on');document.body.style.overflow='hidden'}
+function closeCart(){dr.classList.remove('on');dr.setAttribute('aria-hidden','true');ov.classList.remove('on');document.body.style.overflow='';setTimeout(()=>setStep(1),400);update()}
+const WAICON='<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.2z"/></svg>';
+function setStep(s){
+  step=s;dr.classList.toggle('s2',s==2);dr.classList.toggle('s3',s==3);dr.classList.toggle('s4',s==4);
+  $('#dTitle').textContent=['Себет','Мекенжай','Тексеру','Kaspi-мен төлеу'][s-1];
+  document.querySelectorAll('#track div').forEach((x,i)=>x.classList.toggle('on',i<s));
+  const c=$('#cta');c.classList.toggle('wa',s==3);
+  c.innerHTML=s==1?'Мекенжайға өту':s==2?'Тапсырысты тексеру':WAICON+' WhatsApp-қа жіберу';
+  if(s==3)renderSummary();
+}
+$('#cartBtn').onclick=openCart;$('#barBtn').onclick=openCart;$('#close').onclick=closeCart;ov.onclick=closeCart;
+$('#back').onclick=()=>setStep(step-1);
+addEventListener('keydown',e=>{if(e.key=='Escape'&&dr.classList.contains('on'))closeCart()});
+
+/* house type */
+let house='flat';
+$('#hType').onclick=e=>{const b=e.target.closest('button');if(!b)return;house=b.dataset.h;
+  $('#hType').classList.toggle('r',house=='house');$('#hType').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x==b));
+  document.querySelectorAll('.p2 .flat').forEach(x=>x.classList.toggle('hide-f',house=='house'));};
+
+/* date + time */
+const SLOTS=[[10,13],[13,16],[16,19],[19,22]];let day=0,slot=null;
+const dn=['Жексенбі','Дүйсенбі','Сейсенбі','Сәрсенбі','Бейсенбі','Жұма','Сенбі'];
+const dAt=i=>{const d=new Date();d.setDate(d.getDate()+i);return d};
+const dayLabel=i=>i==0?'Бүгін':i==1?'Ертең':dn[dAt(i).getDay()];
+const dateStr=i=>dAt(i).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'});
+function renderDays(){$('#dSeg').innerHTML=[0,1,2].map(i=>`<button type="button" data-d="${i}" class="${i==day?'on':''}">${dayLabel(i)}<small>${dateStr(i)}</small></button>`).join('');renderSlots()}
+function renderSlots(){const h=new Date().getHours();$('#tSeg').innerHTML=SLOTS.map(([a,b],i)=>{const dis=day==0&&h>=a-1;if(dis&&slot==i)slot=null;return`<button type="button" data-t="${i}" ${dis?'disabled':''} class="${slot==i?'on':''}">${a}:00 – ${b}:00${dis?'<small>Өтіп кетті</small>':''}</button>`}).join('')}
+$('#dSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;day=+b.dataset.d;renderDays()};
+$('#tSeg').onclick=e=>{const b=e.target.closest('button');if(!b||b.disabled)return;slot=+b.dataset.t;renderSlots();$('#tSeg').classList.remove('err')};
+if(new Date().getHours()>=18)day=1;renderDays();
+
+/* phone mask */
+$('#fPhone').addEventListener('input',e=>{let d=e.target.value.replace(/\D/g,'');if(!d){e.target.value='';return}if(d[0]=='8')d='7'+d.slice(1);if(d[0]!='7')d='7'+d;d=d.slice(0,11);
+ let o='+7';if(d.length>1)o+=' ('+d.slice(1,4);if(d.length>=4)o+=') '+d.slice(4,7);if(d.length>=7)o+='-'+d.slice(7,9);if(d.length>=9)o+='-'+d.slice(9,11);e.target.value=o;$('#wPhone').classList.remove('err')});
+document.querySelectorAll('.p2 input').forEach(i=>i.addEventListener('input',()=>i.parentElement.classList.remove('err')));
+
+const v=id=>$('#'+id).value.trim();
+function addrText(){
+  let a=`${v('fStreet')}, ${house=='house'?'жеке үй ':'үй '}${v('fHouse')}`;
+  if(house=='flat'){a+=`, пәтер ${v('fFlat')}`;if(v('fEntr'))a+=`, подъезд ${v('fEntr')}`;if(v('fFloor'))a+=`, ${v('fFloor')}-қабат`;if(v('fCode'))a+=`, домофон ${v('fCode')}`}
+  return a;
+}
+function validate(){
+  let ok=true,first=null;
+  const need=[['wPhone',v('fPhone').replace(/\D/g,'').length==11],['wStreet',v('fStreet').length>=2],['wHouse',v('fHouse').length>=1]];
+  if(house=='flat')need.push(['wFlat',v('fFlat').length>=1]);
+  need.forEach(([w,good])=>{$('#'+w).classList.toggle('err',!good);if(!good){ok=false;first=first||$('#'+w)}});
+  if(slot==null){ok=false;$('#tSeg').classList.add('err');first=first||$('#tSeg')}
+  if(!ok){first.scrollIntoView({behavior:'smooth',block:'center'});toast('Белгіленген жолдарды толтырыңыз')}
+  return ok;
+}
+function renderSummary(){
+  const [a,b]=SLOTS[slot];
+  $('#p3').innerHTML=`
+  <div class="sum-card"><h4>Өнімдер <button onclick="setStep(1)">Өзгерту</button></h4>${Object.keys(cart).map(id=>`<div class="li"><span>${byId(id).n}, ${kg(cart[id])}</span><span>${fmt(cart[id]*byId(id).pr)}</span></div>`).join('')}</div>
+  <div class="sum-card"><h4>Жеткізу <button onclick="setStep(2)">Өзгерту</button></h4>
+    <div class="li"><span>Мекенжай</span><span>Астана, ${addrText()}</span></div>
+    <div class="li"><span>Күні</span><span>${dayLabel(day)}, ${dateStr(day)}</span></div>
+    <div class="li"><span>Уақыты</span><span>${a}:00 – ${b}:00</span></div>
+    <div class="li"><span>Телефон</span><span>${v('fPhone')}</span></div>
+    ${v('fName')?`<div class="li"><span>Аты</span><span>${v('fName')}</span></div>`:''}
+    ${v('fNote')?`<div class="li"><span>Ескертпе</span><span>${v('fNote')}</span></div>`:''}
+  </div>
+  <p class="wa-note">${WAICON.replace('currentColor','#25d366')}Батырманы басқанда WhatsApp ашылып, тапсырыс мәтіні өзі жазылады. Тек «Жіберу» түймесін басыңыз.</p>`;
+}
+$('#cta').onclick=()=>{
+  if(step==1){setStep(2);return}
+  if(step==2){if(validate())setStep(3);return}
+  const {w,s,d,t}=totals(),[a,b]=SLOTS[slot];
+  const items=Object.keys(cart).map((id,i)=>{const p=byId(id);return`${i+1}. ${p.n} — ${kg(cart[id])} × ${fmt(p.pr)} = ${fmt(cart[id]*p.pr)}`}).join('\n');
+  const msg=`🛒 *ЖАҢА ТАПСЫРЫС*\n\n${items}\n\n⚖️ Жалпы салмақ: ${kg(w)}\n💰 Тауарлар: ${fmt(s)}\n🚚 Жеткізу: ${d?fmt(d):'Тегін'}\n✅ *БАРЛЫҒЫ: ${fmt(t)}*\n\n👤 Аты: ${v('fName')||'—'}\n📞 WhatsApp: ${v('fPhone')}\n\n📍 *Мекенжай:* Астана\n• Көше: ${v('fStreet')}\n• ${house=='house'?'Жеке үй':'Үй'}: ${v('fHouse')}`+
+   (house=='flat'?`\n• Пәтер: ${v('fFlat')}`+(v('fEntr')?`\n• Подъезд: ${v('fEntr')}`:'')+(v('fFloor')?`\n• Қабат: ${v('fFloor')}`:'')+(v('fCode')?`\n• Домофон: ${v('fCode')}`:''):'')+
+   `\n\n🕐 *Уақыты:* ${dayLabel(day)} (${dateStr(day)}), ${a}:00–${b}:00`+(v('fNote')?`\n💬 Ескертпе: ${v('fNote')}`:'');
+  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
+  showPay(t);cart={};save();update();
+};
+
+
+/* ===== Kaspi аударым ===== */
+const KASPI_PHONE='+7 747 733 95 73', KASPI_OWNER='Аты Ж.';
+function copyTxt(txt,btn){
+  const done=()=>{btn.classList.add('ok');btn.textContent='Көшірілді ✓';setTimeout(()=>{btn.classList.remove('ok');btn.textContent='Көшіру'},1600)};
+  (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(done).catch(()=>{const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();try{document.execCommand('copy')}catch(e){}t.remove();done()});
+}
+function showPay(total){
+  const amt=String(Math.round(total));
+  $('#p4').innerHTML=`
+  <div class="paid-ok"><i>✓</i>Тапсырысыңыз WhatsApp-қа жіберілді. Енді төлемді жасаңыз.</div>
+  <div class="kcard">
+    <div class="lb">Төленетін сумма</div>
+    <div class="amt">${fmt(total)}</div>
+    <div class="kfield"><div><small>Сумма</small><b>${amt}</b></div><button class="copy" data-copy="${amt}">Көшіру</button></div>
+    <div class="kfield"><div><small>Kaspi нөмірі · ${KASPI_OWNER}</small><b>${KASPI_PHONE}</b></div><button class="copy" data-copy="${KASPI_PHONE.replace(/\s/g,'')}">Көшіру</button></div>
+  </div>
+  <a class="kopen" href="https://kaspi.kz/transfers" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>Kaspi қосымшасын ашу</a>
+  <ol class="ksteps">
+    <li>Kaspi-де «Аударымдар» → «Kaspi клиентіне» бөліміне кіріңіз</li>
+    <li>Көшірілген нөмірді қойыңыз, алушы «${KASPI_OWNER}» екенін тексеріңіз</li>
+    <li>${fmt(total)} сомасын енгізіп, аударыңыз</li>
+    <li>Чекті төмендегі батырма арқылы WhatsApp-қа жіберіңіз</li>
+  </ol>
+  <div class="kbtns">
+    <a class="cta wa" href="https://wa.me/${WA}?text=${encodeURIComponent('Сәлеметсіз бе! Тапсырыс үшін '+fmt(total)+' Kaspi арқылы аудардым. Чекті жіберемін 👇')}" target="_blank" rel="noopener">${WAICON} Чекті WhatsApp-қа жіберу</a>
+    <button class="cta ghost" onclick="closeCart()">Дайын</button>
+  </div>`;
+  setStep(4);
+}
+$('#p4').addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copyTxt(b.dataset.copy,b)});
+
+addEventListener('scroll',()=>$('#top').classList.toggle('scrolled',scrollY>10),{passive:true});
+update();
+</script>
+</body>
+</html>
