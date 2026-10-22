@@ -670,7 +670,7 @@ const fmt=n=>Math.round(n).toLocaleString('ru-RU').replace(/\s/g,' ')+' ₸';
 const kg=n=>(Math.round(n*10)/10).toString().replace('.',',')+' кг';
 let _u=0;
 function art(id){const k='u'+(++_u);return ART[id].replace(/id="([^"]+)"/g,'id="$1'+k+'"').replace(/url\(#([^)]+)\)/g,'url(#$1'+k+')')}
-const IMG_V=4;
+const IMG_V=5;
 const gal=p=>p.g||[p.id];
 const src=f=>`img/${f}.jpg?v=${IMG_V}`;
 const pic=p=>`<img src="${src(gal(p)[0])}" alt="${PN(p)}" loading="lazy" onerror="this.outerHTML=art('${p.id}')">`;
