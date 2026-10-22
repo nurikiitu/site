@@ -96,6 +96,27 @@ button{cursor:pointer;border:0;background:none}
 .card.hide{display:none}
 .ph{position:relative;aspect-ratio:4/3;overflow:hidden}
 .ph img,.ph svg{width:100%;height:100%;object-fit:cover;display:block}
+.ph[data-z]{cursor:zoom-in}
+.ph img{transition:transform .6s var(--ease)}
+.card:hover .ph img{transform:scale(1.04)}
+.zm{position:absolute;right:10px;bottom:10px;display:flex;align-items:center;gap:4px;height:28px;min-width:28px;justify-content:center;padding:0 8px;border-radius:14px;background:rgba(18,26,51,.62);color:#fff;font-size:12px;font-weight:700;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);pointer-events:none}
+.lb{position:fixed;inset:0;z-index:80;background:rgba(8,12,26,.94);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .3s;touch-action:none;user-select:none;-webkit-user-select:none}
+.lb.on{opacity:1;pointer-events:auto}
+.lb-top{display:flex;align-items:center;gap:12px;padding:calc(10px + env(safe-area-inset-top)) 12px 10px 18px;color:#fff;z-index:2}
+.lb-top b{font-size:15px;font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb-top span{font-size:13px;opacity:.7;font-variant-numeric:tabular-nums}
+.lb-x{width:44px;height:44px;border-radius:22px;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center}
+.lb-st{position:relative;flex:1;overflow:hidden}
+.lb-st img{position:absolute;inset:0;margin:auto;max-width:100%;max-height:100%;width:auto;height:auto;transform-origin:0 0;will-change:transform;cursor:zoom-in;-webkit-user-drag:none}
+.lb-st.z img{cursor:grab}
+.lb-nav{position:absolute;top:50%;width:48px;height:48px;margin-top:-24px;border-radius:24px;background:rgba(255,255,255,.14);color:#fff;display:grid;place-items:center;z-index:2;transition:background .2s}
+.lb-nav:hover{background:rgba(255,255,255,.26)}
+.lb-p{left:14px}.lb-n{right:14px}
+.lb-dots{display:flex;gap:8px;justify-content:center;padding:12px 12px calc(14px + env(safe-area-inset-bottom))}
+.lb-dots button{width:54px;height:54px;border-radius:10px;overflow:hidden;opacity:.45;border:2px solid transparent;transition:opacity .2s,border-color .2s}
+.lb-dots button.on{opacity:1;border-color:var(--butter)}
+.lb-dots img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:640px){.lb-nav{display:none}.zm{right:8px;bottom:8px;height:24px;min-width:24px;padding:0 6px;font-size:11px}}
 .tag{position:absolute;left:10px;top:10px;background:var(--butter);color:var(--ink);padding:5px 10px;border-radius:9px;font-size:12px;font-weight:700}
 .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:4px;flex:1}
 .price{font-weight:800;font-size:22px;letter-spacing:-.5px}
@@ -623,6 +644,14 @@ input,textarea{font-size:16px!important}
   <a href="#cart" data-r="cart"><span class="tb-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.5L21 8H6.2"/><circle cx="10" cy="20.5" r="1.3"/><circle cx="18" cy="20.5" r="1.3"/></svg><i id="tbBadge"></i></span>Себет</a>
 </nav>
 
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="lb-top"><b id="lbT"></b><span id="lbN"></span><button class="lb-x" id="lbX" aria-label="Жабу"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="lb-st" id="lbS"><img id="lbI" alt="" draggable="false"></div>
+  <button class="lb-nav lb-p" id="lbP" aria-label="Алдыңғы"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="lb-nav lb-n" id="lbNx" aria-label="Келесі"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  <div class="lb-dots" id="lbD"></div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="art.js?v=3"></script>
@@ -630,19 +659,21 @@ input,textarea{font-size:16px!important}
 const WA='77751255073', FREE_KG=2, DELIVERY=1000, STEP=0.5;
 const P=[
  {id:'syqpa',   n:'Сықпа құрт',           d:'Қолмен сығылған, ащы-тұзды дәмі бар',  pr:5500,  c:'kurt', t:'Көп алынады', nr:'Курт сыкпа', dr:'Прессованный вручную, солоноватый'},
- {id:'dongelek',n:'Дөңгелек құрт',        d:'Домалақ, жұмсақтау, балаларға ұнайды', pr:5500,  c:'kurt', nr:'Курт круглый', dr:'Шариками, мягкий, нравится детям'},
+ {id:'dongelek',n:'Дөңгелек құрт',        d:'Домалақ, жұмсақтау, балаларға ұнайды', pr:5500,  c:'kurt', nr:'Курт круглый', dr:'Шариками, мягкий, нравится детям', g:['dongelek-1','dongelek-2','dongelek']},
  {id:'may',     n:'Сары май, кесе майы',  d:'Ауылдың үй майы, кеседе қатырылған',   pr:5500,  c:'may sut', nr:'Масло сливочное', dr:'Домашнее масло из аула'},
- {id:'kuyryk',  n:'Ысталған құйрық май',  d:'Ағаш түтінімен ысталған',              pr:10000, c:'may et', nr:'Копчёный курдюк', dr:'Копчёный на древесном дыму'},
- {id:'irimshik',n:'Ірімшік',              d:'Қоңыр, тәттілеу, шайға таптырмас',     pr:3500,  c:'sut', nr:'Иримшик', dr:'Коричневый, сладковатый, к чаю'},
- {id:'kazy',    n:'Қазы',                 d:'Жылқы етінен, дәстүрлі әдіспен',       pr:5500,  c:'et', t:'Көп алынады', nr:'Казы', dr:'Из конины, по традиционному рецепту'},
+ {id:'kuyryk',  n:'Ысталған құйрық май',  d:'Ағаш түтінімен ысталған',              pr:10000, c:'may et', nr:'Копчёный курдюк', dr:'Копчёный на древесном дыму', g:['kuyryk-1','kuyryk']},
+ {id:'irimshik',n:'Ірімшік',              d:'Қоңыр, тәттілеу, шайға таптырмас',     pr:3500,  c:'sut', nr:'Иримшик', dr:'Коричневый, сладковатый, к чаю', g:['irimshik-1','irimshik']},
+ {id:'kazy',    n:'Қазы',                 d:'Жылқы етінен, дәстүрлі әдіспен',       pr:5500,  c:'et', t:'Көп алынады', nr:'Казы', dr:'Из конины, по традиционному рецепту', g:['kazy-1','kazy-3','kazy-2','kazy']},
 ];
 const $=s=>document.querySelector(s);
 const fmt=n=>Math.round(n).toLocaleString('ru-RU').replace(/\s/g,' ')+' ₸';
 const kg=n=>(Math.round(n*10)/10).toString().replace('.',',')+' кг';
 let _u=0;
 function art(id){const k='u'+(++_u);return ART[id].replace(/id="([^"]+)"/g,'id="$1'+k+'"').replace(/url\(#([^)]+)\)/g,'url(#$1'+k+')')}
-const IMG_V=3;
-const pic=p=>`<img src="img/${p.id}.jpg?v=${IMG_V}" alt="${PN(p)}" loading="lazy" onerror="this.outerHTML=art('${p.id}')">`;
+const IMG_V=4;
+const gal=p=>p.g||[p.id];
+const src=f=>`img/${f}.jpg?v=${IMG_V}`;
+const pic=p=>`<img src="${src(gal(p)[0])}" alt="${PN(p)}" loading="lazy" onerror="this.outerHTML=art('${p.id}')">`;
 const thumb=id=>pic(byId(id));
 const byId=id=>P.find(x=>x.id==id);
 /* ===== Тіл / Язык ===== */
@@ -692,7 +723,7 @@ const RU={
 'Сәлеметсіз бе! Тапсырыс үшін {x} Kaspi арқылы аудардым. Чекті жіберемін 👇':'Здравствуйте! Перевёл(а) {x} через Kaspi за заказ. Отправляю чек 👇',
 'ЖАҢА ТАПСЫРЫС':'НОВЫЙ ЗАКАЗ','БАСҚА ҚАЛА':'ДРУГОЙ ГОРОД','Жалпы салмақ':'Общий вес','Тауарлар':'Товары','келісім бойынша':'по договорённости',
 'ТӨЛЕНЕТІНІ (өнімдер)':'К ОПЛАТЕ (товары)','БАРЛЫҒЫ':'ИТОГО','Көше':'Улица','Үй':'Дом','Жеткізу тәсілі':'Способ доставки','Домофон / ескертпе':'Домофон / комментарий',
-'Тіл':'Язык','total':'Итого'
+'Тіл':'Язык','Суретті үлкейту':'Увеличить фото','Алдыңғы':'Предыдущее','Келесі':'Следующее','total':'Итого'
 };
 const KK_K={total:'Барлығы'};
 let lang='kk';try{lang=localStorage.getItem('lang')||'kk'}catch(e){}
@@ -733,7 +764,7 @@ const save=()=>{try{localStorage.setItem('cart',JSON.stringify(cart))}catch(e){}
 /* products — Kaspi сияқты: «Себетке» басқанда 1 кг қосылады, сосын − + себеттің өзін өзгертеді */
 const card=p=>`
 <article class="card" data-c="${p.c}">
-  <div class="ph">${pic(p)}${p.t?`<span class="tag">${T(p.t)}</span>`:''}</div>
+  <div class="ph" data-z="${p.id}" role="button" tabindex="0" aria-label="${T('Суретті үлкейту')}">${pic(p)}${p.t?`<span class="tag">${T(p.t)}</span>`:''}<span class="zm">${gal(p).length>1?`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></svg>${gal(p).length}`:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg>`}</span></div>
   <div class="body">
     <div class="price">${fmt(p.pr)}<small> / кг</small></div>
     <h3 class="name">${PN(p)}</h3>
@@ -750,6 +781,7 @@ function renderActs(){
   });
 }
 function cartClick(e){
+  const z=e.target.closest('[data-z]');if(z){openLb(z.dataset.z);return}
   const b=e.target.closest('button');if(!b)return;const d=b.dataset;
   if(d.a){cart[d.a]=1;save();fly(b.closest('.card').querySelector('.ph'),d.a);buzz();toast(PN(byId(d.a)),d.a,T('1 кг себетке салынды'))}
   else if(d.cp){cart[d.cp]=Math.min(50,cart[d.cp]+STEP);buzz()}
@@ -760,6 +792,56 @@ function cartClick(e){
 }
 const buzz=()=>{try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}};
 $('#grid').addEventListener('click',cartClick);
+/* ===== Фото үлкейту (lightbox): свайп, екі рет басу/шымшу арқылы зум ===== */
+const LB={p:null,i:0,s:1,x:0,y:0,pts:new Map(),st:null,moved:false,last:0};
+const lb=$('#lb'),lbI=$('#lbI'),lbS=$('#lbS');
+function openLb(id,i=0){const p=byId(id);if(!p)return;LB.p=p;$('#lbT').textContent=PN(p);
+  const g=gal(p);$('#lbD').innerHTML=g.length>1?g.map((f,k)=>`<button data-k="${k}" aria-label="${k+1}"><img src="${src(f)}" alt=""></button>`).join(''):'';
+  $('#lbP').style.display=$('#lbNx').style.display=g.length>1?'':'none';
+  showLb(i);lb.classList.add('on');lb.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';$('#lbX').focus({preventScroll:true});
+  try{history.pushState({lb:1},'')}catch(e){}}
+function closeLb(fromPop){if(!lb.classList.contains('on'))return;lb.classList.remove('on');lb.setAttribute('aria-hidden','true');document.body.style.overflow='';if(!fromPop&&history.state&&history.state.lb)history.back()}
+function showLb(i){const g=gal(LB.p);LB.i=(i+g.length)%g.length;lbI.src=src(g[LB.i]);lbI.alt=PN(LB.p);
+  $('#lbN').textContent=g.length>1?`${LB.i+1} / ${g.length}`:'';
+  document.querySelectorAll('#lbD button').forEach((b,k)=>b.classList.toggle('on',k==LB.i));resetZ()}
+function resetZ(){LB.s=1;LB.x=0;LB.y=0;applyZ(true)}
+function base(){return{w:lbI.offsetWidth,h:lbI.offsetHeight,W:lbS.clientWidth,H:lbS.clientHeight}}
+function clampZ(){const{w,h,W,H}=base();
+  /* img ортада тұр (margin:auto), transform-origin 0 0: көрінетін жиектер сахнадан шықпасын */
+  const cl=(v,w,W)=>w*LB.s<=W?-(w*LB.s-w)/2:Math.min((w-W)/2,Math.max((W+w)/2-w*LB.s,v));
+  LB.x=cl(LB.x,w,W);LB.y=cl(LB.y,h,H)}
+function applyZ(anim){lbI.style.transition=anim?'transform .3s cubic-bezier(.22,1,.36,1)':'none';lbI.style.transform=`translate(${LB.x}px,${LB.y}px) scale(${LB.s})`;lbS.classList.toggle('z',LB.s>1.01)}
+function zoomAt(cx,cy,ns){const r=lbI.getBoundingClientRect();ns=Math.min(5,Math.max(1,ns));
+  /* (cx,cy) нүктесі орнында қалсын */
+  const px=(cx-r.left)/LB.s,py=(cy-r.top)/LB.s;LB.x-= px*(ns-LB.s);LB.y-= py*(ns-LB.s);LB.s=ns;if(ns==1){LB.x=0;LB.y=0}else clampZ()}
+lbS.addEventListener('pointerdown',e=>{lbS.setPointerCapture(e.pointerId);LB.pts.set(e.pointerId,{x:e.clientX,y:e.clientY});LB.moved=false;
+  const a=[...LB.pts.values()];LB.st={s:LB.s,x:LB.x,y:LB.y,a:a.map(p=>({...p})),d:a.length==2?Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y):0}});
+lbS.addEventListener('pointermove',e=>{if(!LB.pts.has(e.pointerId))return;LB.pts.set(e.pointerId,{x:e.clientX,y:e.clientY});const a=[...LB.pts.values()],st=LB.st;
+  if(a.length==2&&st.d){const d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y),mx=(a[0].x+a[1].x)/2,my=(a[0].y+a[1].y)/2;
+    LB.s=st.s;LB.x=st.x;LB.y=st.y;zoomAt(mx,my,st.s*d/st.d);LB.moved=true;applyZ(false);return}
+  const dx=a[0].x-st.a[0].x,dy=a[0].y-st.a[0].y;if(Math.abs(dx)+Math.abs(dy)>6)LB.moved=true;
+  if(LB.s>1.01){LB.x=st.x+dx;LB.y=st.y+dy;clampZ();applyZ(false)}
+  else{lbI.style.transition='none';lbI.style.transform=`translateX(${dx}px)`;lbI.style.opacity=1-Math.min(.5,Math.abs(dy)/400)}});
+function up(e){if(!LB.pts.has(e.pointerId))return;const st=LB.st,a0=st.a[0];LB.pts.delete(e.pointerId);
+  if(LB.pts.size){const a=[...LB.pts.values()];LB.st={s:LB.s,x:LB.x,y:LB.y,a:a.map(p=>({...p})),d:0};return}
+  lbI.style.opacity='';
+  if(st.d){if(LB.s<1.05)resetZ();return}
+  const dx=e.clientX-a0.x,dy=e.clientY-a0.y;
+  if(LB.s<=1.01&&LB.moved){const n=gal(LB.p).length;
+    if(Math.abs(dy)>110&&Math.abs(dy)>Math.abs(dx))return closeLb();
+    if(n>1&&Math.abs(dx)>60)return showLb(LB.i+(dx<0?1:-1));resetZ();return}
+  const onImg=(()=>{const r=lbI.getBoundingClientRect();return e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom})();
+  if(!LB.moved){const t=Date.now(),dbl=e.pointerType!='mouse'&&t-LB.last<300;LB.last=t;
+    if(e.pointerType=='mouse'||dbl){if(!onImg&&LB.s<=1.01)return closeLb();zoomAt(e.clientX,e.clientY,LB.s>1.01?1:2.5);applyZ(true);LB.last=0}
+    else setTimeout(()=>{if(LB.last==t&&!onImg&&LB.s<=1.01)closeLb()},310)}}
+lbS.addEventListener('pointerup',up);lbS.addEventListener('pointercancel',up);
+lbS.addEventListener('wheel',e=>{e.preventDefault();zoomAt(e.clientX,e.clientY,LB.s*(e.deltaY<0?1.2:1/1.2));applyZ(true)},{passive:false});
+$('#lbX').onclick=()=>closeLb();$('#lbP').onclick=()=>showLb(LB.i-1);$('#lbNx').onclick=()=>showLb(LB.i+1);
+$('#lbD').addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(b)showLb(+b.dataset.k)});
+addEventListener('keydown',e=>{if(lb.classList.contains('on')){if(e.key=='Escape')closeLb();else if(e.key=='ArrowLeft')showLb(LB.i-1);else if(e.key=='ArrowRight')showLb(LB.i+1)}
+  else if((e.key=='Enter'||e.key==' ')&&e.target.dataset&&e.target.dataset.z){e.preventDefault();openLb(e.target.dataset.z)}});
+addEventListener('popstate',()=>closeLb(true));
+addEventListener('resize',()=>{if(lb.classList.contains('on'))resetZ()});
 $('#strip').addEventListener('click',cartClick);
 $('#cats').addEventListener('click',e=>{
   const b=e.target.closest('.cat'); if(!b)return;
